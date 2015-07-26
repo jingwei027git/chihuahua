@@ -165,7 +165,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>russianblue</finalName>
+		<finalName>chihuahua</finalName>
 		<plugins>
 			<!-- compiler -->
 			<plugin>
@@ -184,10 +184,10 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<warName>russianblue_${profile.env}</warName>
+					<warName>chihuahua_${profile.env}</warName>
 					<webResources>
 						<resource>
-							<directory>src/main/config/${profile.env}</directory>
+							<directory>src/main/configProfile/${profile.env}</directory>
 							<targetPath>WEB-INF/classes</targetPath>
 							<filtering>true</filtering>
 							<includes>
