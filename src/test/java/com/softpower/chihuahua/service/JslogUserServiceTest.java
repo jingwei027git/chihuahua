@@ -4,15 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
 import com.softpower.chihuahua.condition.JslogUserCond;
-import com.softpower.chihuahua.core.entity.factory.RbEntityFactory;
-import com.softpower.chihuahua.core.enums.SystemUser;
+import com.softpower.chihuahua.core.enums.SortOption;
 import com.softpower.chihuahua.core.enums.YesNo;
 import com.softpower.chihuahua.core.pagination.OrderBy;
 import com.softpower.chihuahua.core.pagination.Pagination;
@@ -24,20 +22,95 @@ public class JslogUserServiceTest extends GenericTest {
 	@Resource(name = "JslogUserService")
 	private JslogUserService jslogUserService;
 
+	private void createDummyUser(final String namePrefix, int count) {
+		final String password = new BCryptPasswordEncoder().encode("softpower");
+		for (int i = 0; i < count; i++) {
+			JslogUser user = JslogUser.createEntity(JslogUser.class, "TEST");
+			user.setSysStatus(YesNo.Y);
+			user.setName(namePrefix + String.format("%03d", i + 1));
+			user.setEmail(user.getName() + "@softpower.com.tw");
+			user.setPassword(password);
+			jslogUserService.create(user);
+		}
+	}
+
 	@Test
 	public void testFindByCondition() {
+		// create dummy users
+		final String namePrefix = "testFindByCondition";
+		createDummyUser(namePrefix, 26);
+
+		// test page 1, size 10, orderBy ID asc
 		JslogUserCond cond = new JslogUserCond();
-		cond.setName("test");
+		cond.setName("testFindByCondition");
 
 		Pagination page = new Pagination();
 		page.setPage(1);
-		page.setSize(5);
+		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
 		List<JslogUser> users = jslogUserService.list(cond, page);
-		users.forEach((user) -> {
-			System.err.println(user);
-		});
+		Assert.assertEquals(10, Iterables.size(users));
+		Assert.assertEquals(namePrefix + "001", Iterables.getFirst(users, null).getName());
+		Assert.assertEquals(namePrefix + "010", Iterables.getLast(users, null).getName());
+	}
+
+	@Test
+	public void testFindByConditionPage2() {
+		final String namePrefix = "testFindByCondition";
+		createDummyUser(namePrefix, 26);
+
+		// test page 1, size 10, orderBy ID asc
+		JslogUserCond cond = new JslogUserCond();
+		cond.setName("testFindByCondition");
+
+		Pagination page = new Pagination();
+		page.setPage(2);
+		page.setSize(10);
+		page.setOrderBy(OrderBy.DEFAULT);
+
+		List<JslogUser> users = jslogUserService.list(cond, page);
+		Assert.assertEquals(10, Iterables.size(users));
+		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getName());
+		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getName());
+	}
+
+	@Test
+	public void testFindByConditionPage3() {
+		final String namePrefix = "testFindByCondition";
+		createDummyUser(namePrefix, 26);
+
+		JslogUserCond cond = new JslogUserCond();
+		cond.setName("testFindByCondition");
+
+		Pagination page = new Pagination();
+		page.setPage(3);
+		page.setSize(10);
+		page.setOrderBy(OrderBy.DEFAULT);
+
+		List<JslogUser> users = jslogUserService.list(cond, page);
+		Assert.assertEquals(6, Iterables.size(users));
+		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getName());
+		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getName());
+	}
+
+	@Test
+	public void testFindByConditionPage2WithOrder() {
+		final String namePrefix = "testFindByCondition";
+		createDummyUser(namePrefix, 26);
+
+		JslogUserCond cond = new JslogUserCond();
+		cond.setName("testFindByCondition");
+
+		Pagination page = new Pagination();
+		page.setPage(2);
+		page.setSize(10);
+		page.setOrderBy(OrderBy.create("name", SortOption.DESC));
+
+		List<JslogUser> users = jslogUserService.list(cond, page);
+		Assert.assertEquals(10, Iterables.size(users));
+		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getName());
+		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getName());
 	}
 
 	@Test
@@ -63,7 +136,7 @@ public class JslogUserServiceTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		JslogUser user = RbEntityFactory.createEntity(JslogUser.class, SystemUser.SYSTEM.toString(), DateTime.now());
+		JslogUser user = JslogUser.createEntity(JslogUser.class, "TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setName("testSave");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));

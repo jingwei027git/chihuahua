@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import com.softpower.chihuahua.core.enums.SortOption;
 
 @SuppressWarnings("serial")
-public class OrderBy implements Serializable{
+public class OrderBy implements Serializable {
 
 	@Getter
 	private List<Order> orders = Lists.newArrayList();
@@ -19,6 +19,14 @@ public class OrderBy implements Serializable{
 			add(new Order("id", SortOption.ASC));
 		}
 	};
+
+	public static OrderBy create(String field, SortOption sort) {
+		return new OrderBy() {
+			{
+				add(new Order(field, sort));
+			}
+		};
+	}
 
 	public void add(Order order) {
 		getOrders().add(order);
