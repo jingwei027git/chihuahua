@@ -1,38 +1,53 @@
 package com.softpower.chihuahua.service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
-import com.softpower.chihuahua.condition.JslogUserCond;
+import com.softpower.chihuahua.condition.RbUserCond;
 import com.softpower.chihuahua.core.enums.SortOption;
 import com.softpower.chihuahua.core.enums.YesNo;
 import com.softpower.chihuahua.core.pagination.OrderBy;
 import com.softpower.chihuahua.core.pagination.Pagination;
-import com.softpower.chihuahua.entity.JslogUser;
+import com.softpower.chihuahua.entity.RbUser;
 import com.softpower.chihuahua.test.GenericTest;
 
-public class JslogUserServiceTest extends GenericTest {
+public class RbUserServiceTest extends GenericTest {
 
-	@Resource(name = "JslogUserService")
-	private JslogUserService jslogUserService;
+	@Resource(name = "RbUserService")
+	private RbUserService rbUserService;
 
 	private void createDummyUser(final String namePrefix, int count) {
 		final String password = new BCryptPasswordEncoder().encode("softpower");
 		for (int i = 0; i < count; i++) {
-			JslogUser user = JslogUser.createEntity(JslogUser.class, "TEST");
+			RbUser user = RbUser.createEntity(RbUser.class, "TEST");
 			user.setSysStatus(YesNo.Y);
 			user.setUsername(namePrefix + String.format("%03d", i + 1));
-			user.setFullname(user.getUsername() + " name");
-			user.setEmail(user.getFullname() + "@softpower.com.tw");
+			user.setFirstname(user.getUsername() + " firstname");
+			user.setLastname(user.getUsername() + " lastname");
+			user.setEmail(user.getFirstname() + "@softpower.com.tw");
 			user.setPassword(password);
-			jslogUserService.create(user);
+			user.setLockStatus(YesNo.N);
+			user.setLoginCount(0);
+			user.setErrorCount(0);
+			user.setContinueErrorCount(0);
+			user.setLastChangePasswordTime(DateTime.now());
+			user.setExpireTime(DateTime.parse("2016-01-01"));
+			rbUserService.create(user);
 		}
+	}
+
+	@Test
+	public void testFindAll() {
+		// create dummy users
+		final String namePrefix = "testFindByCondition";
+		createDummyUser(namePrefix, 26);
+
+		Iterable<RbUser> users = rbUserService.list(null, Pagination.ALL);
 	}
 
 	@Test
@@ -42,18 +57,18 @@ public class JslogUserServiceTest extends GenericTest {
 		createDummyUser(namePrefix, 26);
 
 		// test page 1, size 10, orderBy ID asc
-		JslogUserCond cond = new JslogUserCond();
-		cond.setFullname("testFindByCondition");
+		RbUserCond cond = new RbUserCond();
+		cond.setFirstname("testFindByCondition");
 
 		Pagination page = new Pagination();
 		page.setPage(1);
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<JslogUser> users = jslogUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(10, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "001", Iterables.getFirst(users, null).getFullname());
-		Assert.assertEquals(namePrefix + "010", Iterables.getLast(users, null).getFullname());
+		Assert.assertEquals(namePrefix + "001", Iterables.getFirst(users, null).getUsername());
+		Assert.assertEquals(namePrefix + "010", Iterables.getLast(users, null).getUsername());
 	}
 
 	@Test
@@ -62,18 +77,18 @@ public class JslogUserServiceTest extends GenericTest {
 		createDummyUser(namePrefix, 26);
 
 		// test page 1, size 10, orderBy ID asc
-		JslogUserCond cond = new JslogUserCond();
-		cond.setFullname("testFindByCondition");
+		RbUserCond cond = new RbUserCond();
+		cond.setFirstname("testFindByCondition");
 
 		Pagination page = new Pagination();
 		page.setPage(2);
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<JslogUser> users = jslogUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(10, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getFullname());
-		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getFullname());
+		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getFirstname());
 	}
 
 	@Test
@@ -81,18 +96,18 @@ public class JslogUserServiceTest extends GenericTest {
 		final String namePrefix = "testFindByCondition";
 		createDummyUser(namePrefix, 26);
 
-		JslogUserCond cond = new JslogUserCond();
-		cond.setFullname("testFindByCondition");
+		RbUserCond cond = new RbUserCond();
+		cond.setFirstname("testFindByCondition");
 
 		Pagination page = new Pagination();
 		page.setPage(3);
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<JslogUser> users = jslogUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(6, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getFullname());
-		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getFullname());
+		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getFirstname());
 	}
 
 	@Test
@@ -100,50 +115,48 @@ public class JslogUserServiceTest extends GenericTest {
 		final String namePrefix = "testFindByCondition";
 		createDummyUser(namePrefix, 26);
 
-		JslogUserCond cond = new JslogUserCond();
-		cond.setFullname("testFindByCondition");
+		RbUserCond cond = new RbUserCond();
+		cond.setFirstname("testFindByCondition");
 
 		Pagination page = new Pagination();
 		page.setPage(2);
 		page.setSize(10);
 		page.setOrderBy(OrderBy.create("name", SortOption.DESC));
 
-		Iterable<JslogUser> users = jslogUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(10, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getFullname());
-		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getFullname());
+		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getFirstname());
 	}
 
 	@Test
 	public void testFindByName() {
-		List<JslogUser> users = jslogUserService.getByUsername("softpower");
-		Assert.assertEquals(1, Iterables.size(users));
+		RbUser user = rbUserService.getByUsername("softpower");
+		Assert.assertNotNull(user);
 	}
 
 	@Test
 	public void testToStringExclude() {
-		JslogUser user = jslogUserService.load(1L);
+		RbUser user = rbUserService.load(1L);
 		Assert.assertNotNull(user);
 		Assert.assertTrue(user.toString().indexOf("password") == -1);
 	}
 
 	@Test
 	public void testDelete() {
-		List<JslogUser> users = jslogUserService.getByUsername("test");
-		for (JslogUser user : users) {
-			jslogUserService.delete(user);
-		}
+		RbUser user = rbUserService.getByUsername("test");
+		rbUserService.delete(user);
 	}
 
 	@Test
 	public void testSave() {
-		JslogUser user = JslogUser.createEntity(JslogUser.class, "TESTSAVE");
+		RbUser user = RbUser.createEntity(RbUser.class, "TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setUsername("testSave");
-		user.setFullname("testSave name");
+		user.setFirstname("testSave name");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));
 		user.setEmail("testsave@softpower.com.tw");
-		int count = jslogUserService.create(user);
+		int count = rbUserService.create(user);
 	}
 
 }

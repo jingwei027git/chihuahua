@@ -18,6 +18,7 @@
 	<context:component-scan base-package="com.softpower.chihuahua.dao, com.softpower.chihuahua.service"/>
 	
 	<util:properties id="sysProperties" location="classpath:system.properties" />
+	<util:properties id="securityProperties" location="classpath:messages/spring-security.properties" />
 	
 	<!-- AOP - monitor service take time -->
 	<bean id="timingAdvice" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />

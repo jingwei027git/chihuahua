@@ -8,6 +8,8 @@ import com.softpower.chihuahua.entity.JslogUser;
 
 public interface JslogUserService extends RbEntityService<JslogUser, JslogUserCond, Long> {
 
-	public List<JslogUser> getByName(String name);
+	public List<JslogUser> getByUsername(String username);
+
+	public List<JslogUser> getByEmail(String email);
 
 }

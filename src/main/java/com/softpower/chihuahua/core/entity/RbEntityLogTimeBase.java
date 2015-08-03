@@ -5,6 +5,11 @@ import lombok.Setter;
 
 import org.joda.time.DateTime;
 
+/**
+ * include {createUser, createTime, modifyUser, modifyTime}
+ * <p>
+ * <p>
+ */
 @Getter
 @Setter
 @SuppressWarnings("serial")

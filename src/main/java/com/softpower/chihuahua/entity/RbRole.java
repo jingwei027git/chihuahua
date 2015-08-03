@@ -9,15 +9,11 @@ import com.softpower.chihuahua.core.enums.YesNo;
 
 @Getter
 @Setter
-@ToString(exclude = "password")
+@ToString
 @SuppressWarnings("serial")
-public class JslogUser extends RbEntityLogTimeBase {
-
+public class RbRole extends RbEntityLogTimeBase {
 	private YesNo sysStatus;
-	private String username;
-	private String fullname;
-	private String email;
-	private String password;
+	private String code;
+	private String name;
 	private String description;
-
 }

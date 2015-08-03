@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.softpower.chihuahua.dao.JslogUserDao">
+<mapper namespace="com.softpower.chihuahua.dao.RbUserDao">
 
 	<sql id="condition">
 		<if test="cond != null">
@@ -10,8 +10,11 @@
 			<if test="cond.username != null">
 				AND username = #{cond.username}
 			</if>
-			<if test="cond.fullname != null">
-				AND fullname = #{cond.fullname}
+			<if test="cond.firstname != null">
+				AND firstname LIKE '${cond.firstname}%'
+			</if>
+			<if test="cond.lastname != null">
+				AND lastname LIKE '${cond.lastname}%'
 			</if>
 			<if test="cond.email != null">
 				AND email = #{cond.email}
@@ -19,37 +22,40 @@
 			<if test="cond.description != null">
 				AND description LIKE '%${cond.description}%'
 			</if>
+			<if test="cond.lockStatus != null">
+				AND lock_status = #{cond.lockStatus}
+			</if>
 		</if>
 	</sql>
 	
 	<select id="count" resultType="long">
-		SELECT COUNT(1) FROM jslog_user
+		SELECT COUNT(1) FROM rb_user
 		<where>
 			<include refid="condition" />
 		</where>
 	</select>
 	
-	<select id="findAll" resultType="com.softpower.chihuahua.entity.JslogUser">
-		SELECT * FROM jslog_user
+	<select id="findAll" resultType="com.softpower.chihuahua.entity.RbUser">
+		SELECT * FROM rb_user
 		<where>
 			<include refid="condition" />
 		</where>
 	</select>
 	
-	<select id="findOne" resultType="com.softpower.chihuahua.entity.JslogUser">
-		SELECT * FROM jslog_user WHERE id = #{id}
+	<select id="findOne" resultType="com.softpower.chihuahua.entity.RbUser">
+		SELECT * FROM rb_user WHERE id = #{id}
 	</select>
 	
 	<!-- ==================== -->
 	<!-- Below SQL for custom -->
 	<!-- ==================== -->
 	
-	<select id="findByUsername" resultType="com.softpower.chihuahua.entity.JslogUser">
-		SELECT * FROM jslog_user WHERE username = #{username}
+	<select id="findByUsername" resultType="com.softpower.chihuahua.entity.RbUser">
+		SELECT * FROM rb_user WHERE username = #{username}
 	</select>
 	
-	<select id="findByEmail" resultType="com.softpower.chihuahua.entity.JslogUser">
-		SELECT * FROM jslog_user WHERE email = #{email}
+	<select id="findByEmail" resultType="com.softpower.chihuahua.entity.RbUser">
+		SELECT * FROM rb_user WHERE email = #{email}
 	</select>
-
+	
 </mapper>

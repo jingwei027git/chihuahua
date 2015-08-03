@@ -11,7 +11,7 @@ import com.softpower.chihuahua.entity.JslogUser;
 @Component("JslogUserDao")
 public interface JslogUserDao extends RbEntityDao<JslogUser, Long> {
 
-	public List<JslogUser> findByName(@Param("name") String name);
+	public List<JslogUser> findByUsername(@Param("username") String username);
 
 	public List<JslogUser> findByEmail(@Param("email") String email);
 

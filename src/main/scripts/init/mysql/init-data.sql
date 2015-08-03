@@ -17,8 +17,9 @@ VALUES (
 -- JSLOG_USER
 INSERT INTO JSLOG_USER (
 	ID, CREATE_USER, CREATE_TIME, MODIFY_USER, MODIFY_TIME,
-	SYS_STATUS, NAME, EMAIL, PASSWORD)
+	SYS_STATUS, USERNAME, FULLNAME, EMAIL, PASSWORD, DESCRIPTION)
 VALUES (
 	1, 'SYSTEM', SYSDATE(), 'SYSTEM', SYSDATE(),
-	'Y', 'softpower', 'mis@softpower.com.tw', '$2a$10$JVwzn6zqiyOlwNxjAyEkTubecL2Ag1ccSR4QYBibMsLg.8sMqdx7a'
+	'Y', 'softpower', 'softpower', 'mis@softpower.com.tw', '$2a$10$JVwzn6zqiyOlwNxjAyEkTubecL2Ag1ccSR4QYBibMsLg.8sMqdx7a', NULL
 );
+

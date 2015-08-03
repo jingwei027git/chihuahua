@@ -5,30 +5,31 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.softpower.chihuahua.core.dao.RbEntityDao;
+import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
-import com.softpower.chihuahua.core.entity.RbModel;
 import com.softpower.chihuahua.core.pagination.Pagination;
 
 @SuppressWarnings("serial")
-public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbModel, DAO extends RbEntityDao<T, Long>> extends RbServiceImpl<T>
+public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, DAO extends RbEntityDao<T, Long>>
+		extends RbServiceImpl<T>
 		implements RbEntityService<T, C, Long> {
 
 	public abstract DAO getDao();
 
 	@Override
-	public T read(Long pk) {
-		T entity = getDao().read(pk);
+	public T load(Long pk) {
+		T entity = getDao().findOne(pk);
 		return entity;
 	}
 
 	@Override
 	public List<T> list(C condition, Pagination pagination) {
-		return getDao().readAll(condition, pagination);
+		return getDao().findAll(condition, pagination);
 	}
 
 	@Override
-	public Integer create(T entity) {
+	public int create(T entity) {
 		if (entity instanceof RbEntityLogTimeBase) {
 			final RbEntityLogTimeBase e = (RbEntityLogTimeBase) entity;
 			if (e.getCreateTime() == null) {
@@ -37,12 +38,11 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbModel,
 			}
 		}
 
-		int count = getDao().create(entity);
-		return count;
+		return getDao().save(entity);
 	}
 
 	@Override
-	public Integer update(T entity) {
+	public int update(T entity) {
 		if (entity instanceof RbEntityLogTimeBase) {
 			final RbEntityLogTimeBase e = (RbEntityLogTimeBase) entity;
 			if (e.getModifyTime() == null) {
@@ -55,14 +55,14 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbModel,
 	}
 
 	@Override
-	public Integer delete(T entity) {
+	public int delete(T entity) {
 		int count = getDao().delete(entity);
 		return count;
 	}
 
 	@Override
-	public Integer delete(final Long pk) {
-		T entity = read(pk);
+	public int delete(final Long pk) {
+		T entity = load(pk);
 		if (entity != null) {
 			int count = getDao().delete(entity);
 			return count;

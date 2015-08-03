@@ -9,27 +9,28 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.softpower.chihuahua.core.dao.provider.MybatisSqlProvider;
+import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.entity.RbEntity;
-import com.softpower.chihuahua.core.entity.RbModel;
 import com.softpower.chihuahua.core.pagination.Pagination;
 
-public interface RbEntityDao<T extends RbEntity, PK extends Serializable> extends RbDao<T, PK> {
-
-	public Long count(Object expression);
+public interface RbEntityDao<T extends RbEntity, ID extends Serializable> extends RbDao<T, ID> {
 
 	/** should implement in DAO.XML **/
-	public <E extends T> E read(@Param("id") Long id);
+	public T findOne(@Param("id") ID id);
 
 	/** should implement in DAO.XML **/
-	public <E extends T> List<E> readAll(@Param("cond") RbModel condition, Pagination pagination);
+	public List<T> findAll(@Param("cond") RbCond condition, Pagination pagination);
+
+	/** should implement in DAO.XML **/
+	public long count(@Param("cond") RbCond condition);
 
 	@InsertProvider(type = MybatisSqlProvider.class, method = "create")
-	public <E extends T> Integer create(E entity);
+	public <S extends T> int save(S entity);
 
 	@UpdateProvider(type = MybatisSqlProvider.class, method = "update")
-	public <E extends T> Integer update(E entity);
+	public int update(T entity);
 
 	@DeleteProvider(type = MybatisSqlProvider.class, method = "delete")
-	public <E extends T> Integer delete(E entity);
+	public int delete(T entity);
 
 }

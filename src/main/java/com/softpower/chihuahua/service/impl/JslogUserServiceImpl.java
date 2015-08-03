@@ -28,8 +28,13 @@ public class JslogUserServiceImpl extends RbEntityServiceImpl<JslogUser, JslogUs
 	}
 
 	@Override
-	public List<JslogUser> getByName(String username) {
-		return getDao().findByName(username);
+	public List<JslogUser> getByUsername(String username) {
+		return getDao().findByUsername(username);
+	}
+
+	@Override
+	public List<JslogUser> getByEmail(String email) {
+		return getDao().findByEmail(email);
 	}
 
 }

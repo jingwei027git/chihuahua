@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.entity.RbEntity;
-import com.softpower.chihuahua.core.entity.RbModel;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.core.service.RbEntityService;
 
 @Slf4j
-public abstract class RbEntityController<T extends RbEntity, C extends RbModel> implements RbController {
+public abstract class RbEntityRestController<T extends RbEntity, C extends RbCond> implements RbController {
 
 	protected abstract RbEntityService<T, C, Long> getRbEntityService();
 
@@ -43,7 +43,7 @@ public abstract class RbEntityController<T extends RbEntity, C extends RbModel> 
 		log.info("Reading entity with id {}", id);
 		Preconditions.checkArgument(id != null);
 
-        T t = getRbEntityService().read(id);
+        T t = getRbEntityService().load(id);
         if (t != null) {
         	return new ResponseEntity<>(t, HttpStatus.OK);
         }else {
@@ -82,13 +82,13 @@ public abstract class RbEntityController<T extends RbEntity, C extends RbModel> 
 
 	@RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-	public ResponseEntity<List<T>> list() {
+	public ResponseEntity<Iterable<T>> list() {
 		log.info("Listing entities");
 		List<T> list = getRbEntityService().list(null, Pagination.ALL);
-		if (!Iterables.isEmpty(list)) {
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		}else {
+		if (Iterables.isEmpty(list)) {
 			return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(list, HttpStatus.OK);
 		}
 	}
 

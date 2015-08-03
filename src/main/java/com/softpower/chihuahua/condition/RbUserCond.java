@@ -1,9 +1,9 @@
 package com.softpower.chihuahua.condition;
 
 import com.softpower.chihuahua.core.dto.RbCond;
-import com.softpower.chihuahua.entity.JslogUser;
+import com.softpower.chihuahua.entity.RbUser;
 
 @SuppressWarnings("serial")
-public class JslogUserCond extends JslogUser implements RbCond {
+public class RbUserCond extends RbUser implements RbCond {
 
 }
