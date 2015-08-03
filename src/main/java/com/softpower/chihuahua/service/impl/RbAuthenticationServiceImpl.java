@@ -48,7 +48,7 @@ public class RbAuthenticationServiceImpl implements UserDetailsService {
 			user.getUsername(),
 			user.getPassword(),
 			user.isEnabled(),
-			user.isAccountNonExpired(),
+			!user.isAccountNonExpired(),
 			user.isCredentialsNonExpired(),
 			user.isAccountNonLocked(),
 			getAuthorities(user.getId())

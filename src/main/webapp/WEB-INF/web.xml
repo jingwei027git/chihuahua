@@ -16,6 +16,7 @@
 			/WEB-INF/classes/spring-security.xml
 			/WEB-INF/classes/spring-datasource.xml
 			/WEB-INF/classes/spring-context.xml
+			/WEB-INF/classes/spring-i18n.xml
 		</param-value>
 	</context-param>
 

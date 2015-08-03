@@ -13,16 +13,28 @@
 		http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-	
-	<context:annotation-config />
-	<context:component-scan base-package="com.softpower.chihuahua.dao, com.softpower.chihuahua.service"/>
-	
-	<util:properties id="sysProperties" location="classpath:system.properties" />
-	
-	<!-- AOP - monitor service take time -->
-	<bean id="timingAdvice" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />
-	<aop:config>
-		<aop:advisor pointcut="execution(public * com.softpower.chihuahua.service.*.*(..))" advice-ref="timingAdvice" />
-	</aop:config>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages/spring-security" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="lang" />
+	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<ref bean="localeChangeInterceptor" />
+		</property>
+	</bean>
 
 </beans>
