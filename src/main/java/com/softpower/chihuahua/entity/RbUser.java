@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
 import com.softpower.chihuahua.core.enums.YesNo;
 
@@ -40,6 +41,7 @@ public class RbUser extends RbEntityLogTimeBase implements UserDetails {
 	private DateTime lastLoginTime;
 	private DateTime expireTime;
 
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();

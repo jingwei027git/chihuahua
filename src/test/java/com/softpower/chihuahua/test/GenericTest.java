@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-datasource.xml", "classpath:spring-context.xml" })
-@TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = false)
 @Transactional("coreTransactionManager")
 @Ignore
 public class GenericTest extends AbstractTest {

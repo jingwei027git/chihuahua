@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,6 +18,7 @@ import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.JslogUser;
 import com.softpower.chihuahua.test.GenericTest;
 
+@Ignore
 public class JslogUserServiceTest extends GenericTest {
 
 	@Resource(name = "JslogUserService")

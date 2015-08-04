@@ -87,8 +87,8 @@ public class RbUserServiceTest extends GenericTest {
 
 		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(10, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getFirstname());
-		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getUsername());
+		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getUsername());
 	}
 
 	@Test
@@ -106,8 +106,8 @@ public class RbUserServiceTest extends GenericTest {
 
 		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(6, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getFirstname());
-		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getUsername());
+		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getUsername());
 	}
 
 	@Test
@@ -121,17 +121,17 @@ public class RbUserServiceTest extends GenericTest {
 		Pagination page = new Pagination();
 		page.setPage(2);
 		page.setSize(10);
-		page.setOrderBy(OrderBy.create("name", SortOption.DESC));
+		page.setOrderBy(OrderBy.create("username", SortOption.DESC));
 
 		Iterable<RbUser> users = rbUserService.list(cond, page);
 		Assert.assertEquals(10, Iterables.size(users));
-		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getFirstname());
-		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getFirstname());
+		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getUsername());
+		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getUsername());
 	}
 
 	@Test
 	public void testFindByName() {
-		RbUser user = rbUserService.getByUsername("softpower");
+		RbUser user = rbUserService.getByUsername("admin");
 		Assert.assertNotNull(user);
 	}
 
@@ -144,7 +144,7 @@ public class RbUserServiceTest extends GenericTest {
 
 	@Test
 	public void testDelete() {
-		RbUser user = rbUserService.getByUsername("test");
+		RbUser user = rbUserService.getByUsername("admin");
 		rbUserService.delete(user);
 	}
 
@@ -156,6 +156,12 @@ public class RbUserServiceTest extends GenericTest {
 		user.setFirstname("testSave name");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));
 		user.setEmail("testsave@softpower.com.tw");
+		user.setLockStatus(YesNo.N);
+		user.setLoginCount(0);
+		user.setErrorCount(0);
+		user.setContinueErrorCount(0);
+		user.setLastChangePasswordTime(DateTime.now());
+		user.setExpireTime(DateTime.parse("2016-01-01"));
 		int count = rbUserService.create(user);
 	}
 
