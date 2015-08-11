@@ -1,9 +1,11 @@
 package com.softpower.chihuahua.core.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Objects;
 
 import org.joda.time.DateTime;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * include {createUser, createTime, modifyUser, modifyTime}
@@ -19,29 +21,23 @@ public abstract class RbEntityLogTimeBase extends RbEntityBase {
 	protected DateTime createTime;
 	protected String modifyUser;
 	protected DateTime modifyTime;
-
-	@Deprecated
-	public static <T extends RbEntityBase> T createEntity(Class<T> entityClass) {
-		throw new RuntimeException("not supported");
+	
+	public <T extends RbEntityLogTimeBase> T init(final String createOrModifyUser) {
+		return init(createOrModifyUser, DateTime.now());
 	}
-
-	public static <T extends RbEntityBase> T createEntity(Class<T> entityClass, final String createUser) {
-		return createEntity(entityClass, createUser, DateTime.now());
-	}
-
-	public static <T extends RbEntityBase> T createEntity(Class<T> entityClass, final String createUser, final DateTime createTime) {
-		try {
-			T entity = entityClass.newInstance();
-			if (entity instanceof RbEntityLogTimeBase) {
-				((RbEntityLogTimeBase) entity).setCreateUser(createUser);
-				((RbEntityLogTimeBase) entity).setCreateTime(createTime);
-				((RbEntityLogTimeBase) entity).setModifyUser(createUser);
-				((RbEntityLogTimeBase) entity).setModifyTime(createTime);
-			}
-			return entity;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	
+	public <T extends RbEntityLogTimeBase> T init(final String createOrModifyUser, final DateTime createOrModifyTime) {
+		if (Objects.isNull(getId())) {
+			setCreateUser(createOrModifyUser);
+			setCreateTime(createOrModifyTime);
 		}
+		setModifyUser(createOrModifyUser);
+		setModifyTime(createOrModifyTime);
+		
+		@SuppressWarnings("unchecked")
+		T t = (T) this;
+		
+		return t;
 	}
 
 }

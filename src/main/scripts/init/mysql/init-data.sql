@@ -23,3 +23,28 @@ VALUES (
 	'Y', 'softpower', 'softpower', 'mis@softpower.com.tw', '$2a$10$JVwzn6zqiyOlwNxjAyEkTubecL2Ag1ccSR4QYBibMsLg.8sMqdx7a', NULL
 );
 
+
+-- ------------------------------------------------------------------
+-- JSLOG_APP_USER
+INSERT INTO JSLOG_APP_USER (
+	APP_ID, USER_ID)
+VALUES (
+	1, 1
+);
+
+
+-- ------------------------------------------------------------------
+-- JSLOG_CLIENT
+
+
+-- ------------------------------------------------------------------
+-- JSLOG_FEEDBACK
+
+
+-- ------------------------------------------------------------------
+-- JSLOG_ONERROR
+
+
+-- ------------------------------------------------------------------
+-- JSLOG_SCREENSHOT
+

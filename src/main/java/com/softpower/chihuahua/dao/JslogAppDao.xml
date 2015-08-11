@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.softpower.chihuahua.dao.JslogAppDao">
+
+	<sql id="condition">
+		<if test="cond != null">
+			<if test="cond.sysStatus != null">
+				AND sys_status = #{cond.sysStatus}
+			</if>
+			<if test="cond.name != null">
+				AND name = LIKE '%${cond.name}%'
+			</if>
+			<if test="cond.appKey != null">
+				AND app_key = #{cond.appKey}
+			</if>
+		</if>
+	</sql>
+	
+	<select id="count" resultType="long">
+		SELECT COUNT(1) FROM jslog_app
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findAll" resultType="com.softpower.chihuahua.entity.JslogApp">
+		SELECT * FROM jslog_app
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findOne" resultType="com.softpower.chihuahua.entity.JslogApp">
+		SELECT * FROM jslog_app WHERE id = #{id}
+	</select>
+	
+	<!-- ==================== -->
+	<!-- Below SQL for custom -->
+	<!-- ==================== -->
+	
+	<select id="findByAppKey" resultType="com.softpower.chihuahua.entity.JslogApp">
+		SELECT * FROM jslog_app WHERE app_key = #{appKey}
+	</select>
+
+</mapper>

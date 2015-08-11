@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.google.common.collect.Iterables;
 import com.softpower.chihuahua.core.enums.YesNo;
 import com.softpower.chihuahua.entity.RbRole;
 import com.softpower.chihuahua.test.GenericTest;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class RbRoleDaoTest extends GenericTest {
 
@@ -31,7 +31,7 @@ public class RbRoleDaoTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		RbRole role = RbRole.createEntity(RbRole.class, "TESTSAVE");
+		RbRole role = new RbRole().init("TESTSAVE");
 		role.setSysStatus(YesNo.Y);
 		role.setCode("ROLE_TEST");
 		int count = rbRoleDao.save(role);

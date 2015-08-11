@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
 import com.softpower.chihuahua.core.enums.YesNo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @see org.springframework.security.core.userdetails.UserDetails
@@ -40,6 +40,14 @@ public class RbUser extends RbEntityLogTimeBase implements UserDetails {
 	private DateTime firstLoginTime;
 	private DateTime lastLoginTime;
 	private DateTime expireTime;
+	
+	{
+		sysStatus = YesNo.Y;
+		lockStatus = YesNo.N;
+		loginCount = 0;
+		errorCount = 0;
+		continueErrorCount = 0;
+	}
 
 	@JsonIgnore
 	@Override

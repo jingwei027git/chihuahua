@@ -17,13 +17,4 @@ public abstract class RbEntityBase implements RbEntity {
 
 	@Transient protected Long id;
 
-	public static <T extends RbEntityBase> T createEntity(Class<T> entityClass) {
-		try {
-			T entity = entityClass.newInstance();
-			return entity;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 }

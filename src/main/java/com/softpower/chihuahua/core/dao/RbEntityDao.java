@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.data.repository.Repository;
 
 import com.softpower.chihuahua.core.dao.provider.MybatisSqlProvider;
 import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.pagination.Pagination;
 
-public interface RbEntityDao<T extends RbEntity, ID extends Serializable> extends RbDao<T, ID> {
+public interface RbEntityDao<T extends RbEntity, ID extends Serializable> extends RbModelDao<T>, Repository<T, ID> {
 
 	/** should implement in DAO.XML **/
 	public T findOne(@Param("id") ID id);

@@ -3,8 +3,6 @@ package com.softpower.chihuahua.service;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
@@ -16,6 +14,9 @@ import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.RbUser;
 import com.softpower.chihuahua.test.GenericTest;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 public class RbUserServiceTest extends GenericTest {
 
 	@Resource(name = "RbUserService")
@@ -24,7 +25,7 @@ public class RbUserServiceTest extends GenericTest {
 	private void createDummyUser(final String namePrefix, int count) {
 		final String password = new BCryptPasswordEncoder().encode("softpower");
 		for (int i = 0; i < count; i++) {
-			RbUser user = RbUser.createEntity(RbUser.class, "TEST");
+			RbUser user = new RbUser().init("TEST");
 			user.setSysStatus(YesNo.Y);
 			user.setUsername(namePrefix + String.format("%03d", i + 1));
 			user.setFirstname(user.getUsername() + " firstname");
@@ -150,7 +151,7 @@ public class RbUserServiceTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		RbUser user = RbUser.createEntity(RbUser.class, "TESTSAVE");
+		RbUser user = new RbUser().init("TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setUsername("testSave");
 		user.setFirstname("testSave name");

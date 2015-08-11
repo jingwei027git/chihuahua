@@ -12,7 +12,7 @@ import com.softpower.chihuahua.core.pagination.Pagination;
 
 @SuppressWarnings("serial")
 public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, DAO extends RbEntityDao<T, Long>>
-		extends RbServiceImpl<T>
+		extends RbModelServiceImpl<T, C>
 		implements RbEntityService<T, C, Long> {
 
 	public abstract DAO getDao();

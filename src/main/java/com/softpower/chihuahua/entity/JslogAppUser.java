@@ -10,9 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @SuppressWarnings("serial")
-public class JslogScreenshot extends RbEntityBase {
-
-	private String mimetype;	// [Ex] image/png
-	private String base64;		// [Ex] 
-
+public class JslogAppUser extends RbEntityBase {
+	private Long appId;	// JslogApp.id
+	private Long userId; // JslogUser.id
 }

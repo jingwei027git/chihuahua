@@ -16,8 +16,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,6 +34,9 @@ import com.softpower.chihuahua.entity.RbUser;
 import com.softpower.chihuahua.service.RbUserService;
 import com.softpower.chihuahua.test.GenericTest;
 import com.softpower.chihuahua.test.util.TestUtil;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class RbUserControllerTest extends GenericTest {
 
@@ -68,7 +69,7 @@ public class RbUserControllerTest extends GenericTest {
 		List<RbUser> users = new ArrayList<>();
 		final String password = new BCryptPasswordEncoder().encode("softpower");
 		for (int i = 0; i < count; i++) {
-			RbUser user = RbUser.createEntity(RbUser.class, "TEST");
+			RbUser user = new RbUser().init("TEST");
 			user.setId(Long.valueOf(i + 1));
 			user.setSysStatus(YesNo.Y);
 			user.setUsername(String.format("%03d", i + 1));
@@ -124,7 +125,6 @@ public class RbUserControllerTest extends GenericTest {
 
 	@Test
 	public void postUserTest() throws Exception {
-
 		RbUser user = genMockUser10();
 		user.setId(null);
 		ObjectMapper mapper = new ObjectMapper();

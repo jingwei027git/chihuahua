@@ -7,8 +7,7 @@ import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.pagination.Pagination;
 
-public interface RbEntityService<T extends RbEntity, C extends RbCond, PK extends Serializable>
-	extends RbService<T> {
+public interface RbEntityService<T extends RbEntity, C extends RbCond, PK extends Serializable> extends RbService {
 
 	public T load(PK pk);
 

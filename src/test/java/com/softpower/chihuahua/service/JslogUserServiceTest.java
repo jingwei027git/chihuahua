@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
@@ -18,6 +15,10 @@ import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.JslogUser;
 import com.softpower.chihuahua.test.GenericTest;
 
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
 @Ignore
 public class JslogUserServiceTest extends GenericTest {
 
@@ -27,7 +28,7 @@ public class JslogUserServiceTest extends GenericTest {
 	private void createDummyUser(final String namePrefix, int count) {
 		final String password = new BCryptPasswordEncoder().encode("softpower");
 		for (int i = 0; i < count; i++) {
-			JslogUser user = JslogUser.createEntity(JslogUser.class, "TEST");
+			JslogUser user = new JslogUser().init("TEST");
 			user.setSysStatus(YesNo.Y);
 			user.setUsername(namePrefix + String.format("%03d", i + 1));
 			user.setFullname(user.getUsername() + " name");
@@ -139,7 +140,7 @@ public class JslogUserServiceTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		JslogUser user = JslogUser.createEntity(JslogUser.class, "TESTSAVE");
+		JslogUser user = new JslogUser().init("TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setUsername("testSave");
 		user.setFullname("testSave name");

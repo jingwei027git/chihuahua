@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
@@ -16,6 +14,9 @@ import com.softpower.chihuahua.core.pagination.OrderBy;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.RbUser;
 import com.softpower.chihuahua.test.GenericTest;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class RbUserDaoTest extends GenericTest {
 
@@ -64,7 +65,7 @@ public class RbUserDaoTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		RbUser user = RbUser.createEntity(RbUser.class, "TESTSAVE");
+		RbUser user = new RbUser().init("TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setUsername("testSave");
 		user.setFirstname("first name");

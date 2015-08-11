@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
@@ -15,6 +13,9 @@ import com.softpower.chihuahua.core.pagination.OrderBy;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.JslogUser;
 import com.softpower.chihuahua.test.GenericTest;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class JslogUserDaoTest extends GenericTest {
 
@@ -52,14 +53,13 @@ public class JslogUserDaoTest extends GenericTest {
 
 	@Test
 	public void testSave() {
-		JslogUser user = JslogUser.createEntity(JslogUser.class, "TESTSAVE");
+		JslogUser user = new JslogUser().init("TESTSAVE");
 		user.setSysStatus(YesNo.Y);
 		user.setUsername("testSave");
 		user.setFullname("testSave name");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));
 		user.setEmail("testsave@softpower.com.tw");
 		int count = jslogUserDao.save(user);
-		System.err.println(count);
 	}
 
 	@Test
