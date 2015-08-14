@@ -4,6 +4,7 @@
 
 -- ------------------------------------------------------------------
 -- JSLOG_APP
+TRUNCATE JSLOG_APP;
 INSERT INTO JSLOG_APP (
 	ID, CREATE_USER, CREATE_TIME, MODIFY_USER, MODIFY_TIME,
 	SYS_STATUS, NAME, APP_KEY, SITE)
@@ -15,6 +16,7 @@ VALUES (
 
 -- ------------------------------------------------------------------
 -- JSLOG_USER
+TRUNCATE JSLOG_USER;
 INSERT INTO JSLOG_USER (
 	ID, CREATE_USER, CREATE_TIME, MODIFY_USER, MODIFY_TIME,
 	SYS_STATUS, USERNAME, FULLNAME, EMAIL, PASSWORD, DESCRIPTION)
@@ -26,6 +28,7 @@ VALUES (
 
 -- ------------------------------------------------------------------
 -- JSLOG_APP_USER
+TRUNCATE JSLOG_APP_USER;
 INSERT INTO JSLOG_APP_USER (
 	APP_ID, USER_ID)
 VALUES (
@@ -35,16 +38,20 @@ VALUES (
 
 -- ------------------------------------------------------------------
 -- JSLOG_CLIENT
-
+TRUNCATE JSLOG_CLIENT;
 
 -- ------------------------------------------------------------------
 -- JSLOG_FEEDBACK
-
+TRUNCATE JSLOG_FEEDBACK;
 
 -- ------------------------------------------------------------------
--- JSLOG_ONERROR
-
+-- JSLOG_ERROR
+TRUNCATE JSLOG_ERROR;
 
 -- ------------------------------------------------------------------
 -- JSLOG_SCREENSHOT
+TRUNCATE JSLOG_SCREENSHOT;
 
+-- ------------------------------------------------------------------
+-- JSLOG_SOURCECODE
+TRUNCATE JSLOG_SOURCECODE;

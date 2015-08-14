@@ -13,7 +13,7 @@ public interface RbEntityService<T extends RbEntity, C extends RbCond, PK extend
 
 	public List<T> list(C condition, Pagination pagination);
 
-	public int create(T entity);
+	public long create(T entity);
 
 	public int update(T entity);
 

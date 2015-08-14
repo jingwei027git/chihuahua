@@ -7,7 +7,13 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 	
+	<http pattern="/**/*.png" security="none" />
+    <http pattern="/**/*.css" security="none" />
+    <http pattern="/**/*.js" security="none" />
+	
 	<http auto-config="true">
+		<csrf disabled="true" />
+	
 		<access-denied-handler error-page="/login?denied=403" />
 		
 		<intercept-url pattern="/" access="hasRole('USER')" />

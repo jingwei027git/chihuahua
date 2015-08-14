@@ -3,6 +3,7 @@ package com.softpower.chihuahua.test;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -17,14 +18,14 @@ import org.junit.runner.RunWith;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-datasource.xml", "classpath:spring-context.xml" })
-@TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = false)
+@TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = true)
 @Transactional("coreTransactionManager")
 @Ignore
 public class GenericTest extends AbstractTest {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
-	protected RbUser getPrincipalUser() {
+	protected UserDetails getPrincipalUser() {
 		RbUser user = new RbUser().init("TEST");
 		user.setId(1L);
 		user.setUsername("TEST-USER");

@@ -163,7 +163,8 @@ public class RbUserServiceTest extends GenericTest {
 		user.setContinueErrorCount(0);
 		user.setLastChangePasswordTime(DateTime.now());
 		user.setExpireTime(DateTime.parse("2016-01-01"));
-		int count = rbUserService.create(user);
+		long id = rbUserService.create(user);
+		Assert.assertNotNull(id);
 	}
 
 }

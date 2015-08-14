@@ -1,7 +1,5 @@
 package com.softpower.chihuahua.core.entity;
 
-import java.util.Objects;
-
 import org.joda.time.DateTime;
 
 import lombok.Getter;
@@ -27,7 +25,7 @@ public abstract class RbEntityLogTimeBase extends RbEntityBase {
 	}
 	
 	public <T extends RbEntityLogTimeBase> T init(final String createOrModifyUser, final DateTime createOrModifyTime) {
-		if (Objects.isNull(getId())) {
+		if (getId() == null) {
 			setCreateUser(createOrModifyUser);
 			setCreateTime(createOrModifyTime);
 		}

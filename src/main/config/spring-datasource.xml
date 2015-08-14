@@ -50,8 +50,8 @@
 	</tx:advice>  
 
 	<aop:config>
-		<aop:pointcut id="corePointcut" expression="execution(public * com.softpower.chihuahua..service.*.*(..))" />
-		<aop:advisor pointcut-ref="corePointcut" advice-ref="coreTxAdvice" />
+		<aop:advisor pointcut="execution(public * com.softpower.chihuahua.core.service.*.*(..))" advice-ref="coreTxAdvice" />
+		<aop:advisor pointcut="execution(public * com.softpower.chihuahua.service.*.*(..))" advice-ref="coreTxAdvice" />
 	</aop:config>
 
 </beans>

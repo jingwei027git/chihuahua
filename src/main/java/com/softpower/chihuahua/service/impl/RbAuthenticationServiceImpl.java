@@ -3,15 +3,10 @@ package com.softpower.chihuahua.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Resource;
 
-import lombok.Getter;
-
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,11 +19,8 @@ import com.softpower.chihuahua.dao.RbUserDao;
 import com.softpower.chihuahua.entity.RbRole;
 import com.softpower.chihuahua.entity.RbUser;
 
-@Getter
 @Component("RbAuthenticationService")
 public class RbAuthenticationServiceImpl implements UserDetailsService {
-
-	protected final MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
 	@Resource(name="RbUserDao")
     private RbUserDao userDao;
@@ -40,7 +32,7 @@ public class RbAuthenticationServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final RbUser user = userDao.findByUsername(username);
 
-		if (Objects.isNull(user)) {
+		if (user == null) {
 			throw new UsernameNotFoundException("user not found");
 		}
 

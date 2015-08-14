@@ -10,11 +10,12 @@ import lombok.Setter;
  * <p>
  * <p>
  */
-@Getter
-@Setter
 @SuppressWarnings("serial")
 public abstract class RbEntityBase implements RbEntity {
 
-	@Transient protected Long id;
+	@Getter
+	@Setter
+	@Transient
+	protected Long id;
 
 }

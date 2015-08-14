@@ -29,5 +29,21 @@
 	<!-- ==================== -->
 	<!-- Below SQL for custom -->
 	<!-- ==================== -->
+	
+	<update id="updateScreenshotIdById">
+		UPDATE jslog_error
+		   SET screenshot_id = #{screenshotId},
+		       modify_user = #{modifyUser},
+		       modify_time = #{modifyTime}
+		 WHERE id = #{id}
+	</update>
+	
+	<update id="updateSourcecodeIdById">
+		UPDATE jslog_error
+		   SET sourcecode_id = #{sourcecodeId},
+		       modify_user = #{modifyUser},
+		       modify_time = #{modifyTime}
+		 WHERE id = #{id}
+	</update>
 
 </mapper>

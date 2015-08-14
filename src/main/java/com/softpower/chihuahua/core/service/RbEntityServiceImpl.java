@@ -10,6 +10,9 @@ import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
 import com.softpower.chihuahua.core.pagination.Pagination;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SuppressWarnings("serial")
 public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, DAO extends RbEntityDao<T, Long>>
 		extends RbModelServiceImpl<T, C>
@@ -29,7 +32,7 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 	}
 
 	@Override
-	public int create(T entity) {
+	public long create(T entity) {
 		if (entity instanceof RbEntityLogTimeBase) {
 			final RbEntityLogTimeBase e = (RbEntityLogTimeBase) entity;
 			if (e.getCreateTime() == null) {
@@ -38,7 +41,9 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 			}
 		}
 
-		return getDao().save(entity);
+		int count = getDao().save(entity);
+		log.debug("saveCount {}", count);
+		return entity.getId();
 	}
 
 	@Override
@@ -51,24 +56,28 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 		}
 
 		int count = getDao().update(entity);
+		log.debug("updateCount {}", count);
 		return count;
 	}
 
 	@Override
 	public int delete(T entity) {
 		int count = getDao().delete(entity);
+		log.debug("deleteCount {}", count);
 		return count;
 	}
 
 	@Override
 	public int delete(final Long pk) {
+		int count = 0;
 		T entity = load(pk);
 		if (entity != null) {
-			int count = getDao().delete(entity);
-			return count;
+			count = getDao().delete(entity);
 		} else {
-			return 0;
+			count = 0;
 		}
+		log.debug("deleteCount {}", count);
+		return count;
 	}
 
 }

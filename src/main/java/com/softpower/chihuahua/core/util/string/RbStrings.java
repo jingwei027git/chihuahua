@@ -38,5 +38,17 @@ public class RbStrings {
 
 		return Pattern.compile("^" + sqlLike + "$");
 	}
+	
+	public static String concats(Object ... objs) {
+		StringBuffer buf = new StringBuffer("");
+		if (objs == null || objs.length < 1) return buf.toString();
+		
+		for (Object obj : objs) {
+			if (obj == null) continue;
+			buf.append(obj.toString());
+		}
+		
+		return buf.toString();
+	}
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.softpower.chihuahua.dao.JslogSourcecodeDao">
+
+	<sql id="condition">
+		<if test="cond != null">
+			<!-- TODO -->
+		</if>
+	</sql>
+	
+	<select id="count" resultType="long">
+		SELECT COUNT(1) FROM jslog_sourcecode
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findAll" resultType="com.softpower.chihuahua.entity.JslogSourcecode">
+		SELECT * FROM jslog_sourcecode
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findOne" resultType="com.softpower.chihuahua.entity.JslogSourcecode">
+		SELECT * FROM jslog_sourcecode WHERE id = #{id}
+	</select>
+	
+	<!-- ==================== -->
+	<!-- Below SQL for custom -->
+	<!-- ==================== -->
+
+</mapper>

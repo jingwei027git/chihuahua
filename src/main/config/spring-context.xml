@@ -18,6 +18,14 @@
 	<context:component-scan base-package="com.softpower.chihuahua.dao, com.softpower.chihuahua.service"/>
 	
 	<util:properties id="sysProperties" location="classpath:system.properties" />
+
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="org.springframework.core.convert.support.StringToBooleanConverter" />
+			</set>
+		</property>
+	</bean>
 	
 	<!-- AOP - monitor service take time -->
 	<bean id="timingAdvice" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />

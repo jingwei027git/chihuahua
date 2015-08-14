@@ -146,7 +146,8 @@ public class JslogUserServiceTest extends GenericTest {
 		user.setFullname("testSave name");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));
 		user.setEmail("testsave@softpower.com.tw");
-		int count = jslogUserService.create(user);
+		long id = jslogUserService.create(user);
+		Assert.assertNotNull(id);
 	}
 
 }

@@ -2,11 +2,9 @@ package com.softpower.chihuahua.core.controller;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +19,16 @@ import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.core.service.RbEntityService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
-public abstract class RbEntityRestController<T extends RbEntity, C extends RbCond> implements RbController {
+public abstract class RbEntityRestController<T extends RbEntity, C extends RbCond> extends RbControllerBase {
 
 	protected abstract RbEntityService<T, C, Long> getRbEntityService();
 
 	@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-	public ResponseEntity<T> create(@RequestBody T t) {
+	public HttpEntity<T> create(@RequestBody T t) {
 		log.info("Creating new entity {}", t);
 		Preconditions.checkArgument(t != null);
 
@@ -39,7 +39,7 @@ public abstract class RbEntityRestController<T extends RbEntity, C extends RbCon
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-	public ResponseEntity<T> read(@PathVariable(value = "id") Long id) {
+	public HttpEntity<T> read(@PathVariable(value = "id") Long id) {
 		log.info("Reading entity with id {}", id);
 		Preconditions.checkArgument(id != null);
 
@@ -47,12 +47,12 @@ public abstract class RbEntityRestController<T extends RbEntity, C extends RbCon
         if (t != null) {
         	return new ResponseEntity<>(t, HttpStatus.OK);
         }else {
-        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        	return new ResponseEntity<>(HttpStatus.OK);
         }
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@PathVariable(value = "id") Long id, @RequestBody T t) {
+	public HttpEntity<Void> update(@PathVariable(value = "id") Long id, @RequestBody T t) {
 		log.info("Updating entity with id {} with {}", id, t);
 		Preconditions.checkArgument(id != null);
 		Preconditions.checkArgument(t != null);
@@ -68,7 +68,7 @@ public abstract class RbEntityRestController<T extends RbEntity, C extends RbCon
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public ResponseEntity<Void> delete(@PathVariable(value = "id") Long id) {
+	public HttpEntity<Void> delete(@PathVariable(value = "id") Long id) {
 		log.info("Deleting entity with id {}", id);
 		Preconditions.checkArgument(id != null);
 
@@ -82,7 +82,7 @@ public abstract class RbEntityRestController<T extends RbEntity, C extends RbCon
 
 	@RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-	public ResponseEntity<Iterable<T>> list() {
+	public ResponseEntity<List<T>> list() {
 		log.info("Listing entities");
 		List<T> list = getRbEntityService().list(null, Pagination.ALL);
 		if (Iterables.isEmpty(list)) {
@@ -91,21 +91,5 @@ public abstract class RbEntityRestController<T extends RbEntity, C extends RbCon
 			return new ResponseEntity<>(list, HttpStatus.OK);
 		}
 	}
-
-	@ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public String handleClientErrors(Exception ex) {
-		log.error(ex.getMessage(), ex);
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public String handleServerErrors(Exception ex) {
-    	log.error(ex.getMessage(), ex);
-        return ex.getMessage();
-    }
 
 }

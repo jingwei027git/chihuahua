@@ -8,11 +8,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = "base64")
+@ToString(exclude = "content")
 @SuppressWarnings("serial")
-public class JslogScreenshot extends RbEntityBase {
+public class JslogSourcecode extends RbEntityBase {
 
 	private String mimetype;	// [Ex] image/png
-	private String base64;		// [Ex] 
+	private String content;		// [Ex] 
 
 }

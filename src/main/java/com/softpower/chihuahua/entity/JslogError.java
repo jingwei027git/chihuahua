@@ -1,10 +1,10 @@
 package com.softpower.chihuahua.entity;
 
+import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
 
 @Getter
 @Setter
@@ -15,6 +15,7 @@ public class JslogError extends RbEntityLogTimeBase {
 	private Long appId;
 	private Long clientId;
 	private Long screenshotId;
+	private Long sourcecodeId;
 
 	private String errMsg;		// [Ex] Uncaught SyntaxError: Unexpected identifier
 	private String url;			// [Ex] http://localhost:18080/AttractionSuite/ec/admin/reservation/initInventoryControlPanel.action
