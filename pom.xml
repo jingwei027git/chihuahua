@@ -12,7 +12,7 @@
 	<url>https://github.com/jingwei027git/chihuahua</url>
 
 	<properties>
-		<java-version>1.8</java-version>
+		<java-version>1.7</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework-version>4.1.6.RELEASE</org.springframework-version>
 		<org.springframework-security-version>4.0.1.RELEASE</org.springframework-security-version>
@@ -28,8 +28,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
@@ -81,18 +81,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-core</artifactId>
-			<version>1.6.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
@@ -131,6 +119,11 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${org.springframework-security-version}</version>
@@ -138,6 +131,11 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework-security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.springframework-security-version}</version>
 		</dependency>
 		<dependency>
@@ -221,11 +219,6 @@
 			<version>2.3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.2</version>
@@ -234,6 +227,11 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

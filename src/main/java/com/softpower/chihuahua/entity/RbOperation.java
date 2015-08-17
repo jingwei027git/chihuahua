@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @SuppressWarnings("serial")
-public class RbRole extends RbEntityLogTimeBase implements GrantedAuthority {
+public class RbOperation extends RbEntityLogTimeBase implements GrantedAuthority {
 	private YesNo sysStatus;
 	private String code;
 	private String name;

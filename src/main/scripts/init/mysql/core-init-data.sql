@@ -3,6 +3,7 @@
 -- ==================================================================
 
 -- RB_USER
+TRUNCATE rb_user;
 INSERT INTO rb_user (
 	ID, CREATE_USER, CREATE_TIME, MODIFY_USER, MODIFY_TIME, SYS_STATUS,
 	USERNAME, FIRSTNAME, LASTNAME, EMAIL, DESCRIPTION,
@@ -33,6 +34,7 @@ VALUES (
 
 
 -- RB_ROLE
+TRUNCATE rb_role;
 INSERT INTO rb_role (
 	ID, CREATE_USER, CREATE_TIME, MODIFY_USER, MODIFY_TIME, SYS_STATUS,
 	CODE, NAME, DESCRIPTION)
@@ -51,20 +53,21 @@ VALUES (
 
 
 -- RB_USER_ROLE
+TRUNCATE rb_user_role;
 INSERT INTO rb_user_role (
 	ID, USER_ID, ROLE_ID)
 VALUES (
 	1, 1, 1
 );
-
+/*
 INSERT INTO rb_user_role (
 	ID, USER_ID, ROLE_ID)
 VALUES (
 	2, 1, 2
 );
-
+*/
 INSERT INTO rb_user_role (
 	ID, USER_ID, ROLE_ID)
 VALUES (
-	3, 2, 2
+	2, 2, 2
 );

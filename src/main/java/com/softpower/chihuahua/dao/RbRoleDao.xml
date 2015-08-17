@@ -10,26 +10,37 @@
 	<!-- Below SQL for custom -->
 	<!-- ==================== -->
 	
-	<select id="findByUserId" resultType="com.softpower.chihuahua.entity.RbRole">
+	<select id="findByUserIdAndSysStatus" resultType="com.softpower.chihuahua.entity.RbRole">
 		SELECT r.*
 		  FROM rb_role r
 		  JOIN rb_user_role ur ON (r.id = ur.role_id)
-		 WHERE ur.user_id = #{userId}
+		  JOIN rb_user u ON (u.id = ur.user_id)
+		 WHERE u.id = #{userId}
+		<if test="sysStatus != null">
+		   AND u.sys_status = #{sysStatus}
+		</if>
 	</select>
 	
-	<select id="findByRoleId" resultType="com.softpower.chihuahua.entity.RbRole">
+	<select id="findByRoleIdAndSysStatus" resultType="com.softpower.chihuahua.entity.RbRole">
 		SELECT r.*
 		  FROM rb_role r
-		  JOIN rb_user_role ur ON (r.id = ur.role_id)
-		 WHERE ur.role_id = #{roleId}
+		 WHERE r.id = #{roleId}
+		<if test="sysStatus != null">
+		   AND r.sys_status = #{sysStatus}
+		</if>
 	</select>
 	
-	<select id="findByUserIdAndRoleId" resultType="com.softpower.chihuahua.entity.RbRole">
+	<select id="findByUserIdAndRoleIdAndSysStatus" resultType="com.softpower.chihuahua.entity.RbRole">
 		SELECT r.*
 		  FROM rb_role r
 		  JOIN rb_user_role ur ON (r.id = ur.role_id)
-		 WHERE ur.user_id = #{userId}
-		   AND ur.role_id = #{roleId}
+		  JOIN rb_user u ON (u.id = ur.user_id)
+		 WHERE u.id = #{userId}
+		   AND r.id = #{roleId}
+		<if test="sysStatus != null">
+		   AND u.sys_status = #{sysStatus}
+		   AND r.sys_status = #{sysStatus}
+		</if>
 	</select>
 	
 </mapper>
