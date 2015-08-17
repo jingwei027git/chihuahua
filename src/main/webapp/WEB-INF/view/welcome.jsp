@@ -7,6 +7,7 @@
 	<sec:csrfMetaTags />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script type="text/javascript" src="//libs.cncdn.cn/html2canvas/0.5.0-alpha2/html2canvas.min.js "></script>
 	
 	<script type="text/javascript" src="http://localhost:28080/chihuahua/js/jslogOnError.js"></script>
@@ -59,6 +60,7 @@
 	<tr><td>CREATE</td>
 		<td><input type="text" id="postResult" style="width:20px" disabled /></td>
 		<td><input type="button" id="postBtn" value="TEST" /></td>
+		<td><input type="button" id="csrfBtn" value="REST-CSRF" /></td>
 	</tr>
 	</table>
 </body>
@@ -89,6 +91,10 @@ $( document ).ready( function() {
 				alert(errorThrown);
 			}
 		});
+	});
+	
+	$("#csrfBtn").bind("click", function() {
+		xxxx();
 	});
 });
 
@@ -129,7 +135,30 @@ function getSampleData() {
 	
 	return jslogOnError;
 }
-</script>
+
+function xxxx() {
+	$.ajax({
+		type: 'GET',
+		url: '/chihuahua/errors/scriptcode/1'
+ 
+	}).done(function (data, textStatus, jqXHR) {
+		var csrfToken = jqXHR.getResponseHeader('X-CSRF-TOKEN');
+		if (csrfToken) {
+			var cookie = JSON.parse($.cookie('helloween'));
+			cookie.csrf = csrfToken;
+			$.cookie('helloween', JSON.stringify(cookie));
+			console.log(cookie);
+		}
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
+			var cookie = JSON.stringify({method: 'GET', url: '/', csrf: jqXHR.getResponseHeader('X-CSRF-TOKEN')});
+			$.cookie('helloween', cookie);
+			console.log(cookie);
+		} else {
+			console.error('Houston, we have a problem...');
+		}
+	});
+}
 </script>
 
 <script>

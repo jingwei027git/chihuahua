@@ -3,8 +3,7 @@
 <configuration>
 
 	<properties>
-		<!-- Ref. RbDialect.java -->
-		<property name="dialect" value="MySQL" />
+		<property name="dialect" value="MySQL" /> <!-- Ref. RbDialect.java -->
 	</properties>
 
 	<settings>

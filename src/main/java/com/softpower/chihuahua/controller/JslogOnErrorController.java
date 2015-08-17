@@ -2,6 +2,8 @@ package com.softpower.chihuahua.controller;
 
 import javax.annotation.Resource;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,24 +21,23 @@ import com.softpower.chihuahua.core.service.RbModelService;
 import com.softpower.chihuahua.datamodel.JslogOnErrorModel;
 import com.softpower.chihuahua.service.JslogOnErrorService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @RestController
 @RequestMapping("/errors")
 public class JslogOnErrorController extends RbModelController<JslogOnErrorModel, JslogOnErrorModel> {
-	
+
 	@Resource(name = "JslogOnErrorService")
 	private JslogOnErrorService jslogErrorService;
-	
+
 	@Override
 	public RbModelService<JslogOnErrorModel, JslogOnErrorModel> getRbModelService() {
 		return jslogErrorService;
 	}
-	
+
 	@RequestMapping(value = "/scriptcode/{appId}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
-	public HttpEntity<String> readScriptCode(@PathVariable(value = "appId") Long appId,
+	public HttpEntity<String> generateScriptCode(
+		@PathVariable(value = "appId") Long appId,
 		@RequestParam(value = "screenshot", required = false, defaultValue = "false") Boolean screenshot,
 		@RequestParam(value = "sourcecode", required = false, defaultValue = "false") Boolean sourcecode)
 	{
