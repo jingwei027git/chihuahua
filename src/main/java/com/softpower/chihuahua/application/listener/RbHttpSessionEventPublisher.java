@@ -17,14 +17,16 @@ public class RbHttpSessionEventPublisher extends HttpSessionEventPublisher {
 	public void sessionCreated(HttpSessionEvent event) {
 		super.sessionCreated(event);
 		sessionCount++;
-		log.debug("sessionCreated current count {}", sessionCount);
+		log.info("sessionCreated current count {}", sessionCount);
+		log.info("sessionCreated id {}", event.getSession().getId());
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent event) {
 		super.sessionDestroyed(event);
 		sessionCount--;
-		log.debug("sessionDestroyed current count {}", sessionCount);
+		log.info("sessionDestroyed current count {}", sessionCount);
+		log.info("sessionDestroyed id {}", event.getSession().getId());
 	}
 
 }
