@@ -63,6 +63,11 @@ public class RESTfulTest {
 		testLogin("?username=admin&password=admin123");
 	}
 
+	@Test
+	public void testLoginSuccess2() {
+		testLogin("?username=user&password=user123");
+	}
+
 	private void testRequestTestUrl(String jSessionId) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.TEXT_PLAIN);
@@ -92,7 +97,7 @@ public class RESTfulTest {
 
 	@Test
 	public void testRequestTestUrlWithCookie() {
-		testRequestTestUrl("657ED5660C401FC435641E808E398A1B");
+		testRequestTestUrl("9B98038C09019BBECCAB4E31787D232B");
 	}
 
 }
