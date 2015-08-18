@@ -1,19 +1,19 @@
 import java.util.Arrays;
 
+import org.apache.catalina.util.Base64;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		final String authorization = "Basic " + Base64Utils.encodeToString("admin:admin123".getBytes());
+		final String authorization = "Basic " + Base64.encode("admin:admin123".getBytes());
 		final String baseUrl = "http://localhost:28080/chihuahua/errors/scriptcode/1";
 
 		HttpHeaders headers = new HttpHeaders();
