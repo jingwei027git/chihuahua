@@ -11,13 +11,14 @@
 	<http pattern="/**/*.css" security="none" />
 	<http pattern="/**/*.js" security="none" />
 	
+	<!-- RESTful stateless 
 	<http pattern="/errors/**" use-expressions="true" auto-config="true" create-session="stateless">
     	<csrf disabled="true" />
     	<intercept-url pattern="/errors/**" access="permitAll()" />
     	<http-basic />
     </http>
-	
-	<!-- RESTful stateful 
+	-->
+	<!-- RESTful stateful -->
 	<http pattern="/errors/**" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
 		<csrf disabled="true" />
 		<intercept-url pattern="/errors/**" access="hasRole('ADMIN')" />
@@ -32,7 +33,7 @@
 	<beans:bean id="restAuthenticationEntryPoint" class="com.softpower.chihuahua.core.controller.entrypoint.RestAuthenticationEntryPoint" />
 	<beans:bean id="mySuccessHandler" class="com.softpower.chihuahua.core.controller.handler.RestAuthenticationSuccessHandler" />
 	<beans:bean id="myFailureHandler" class="com.softpower.chihuahua.core.controller.handler.RestAuthenticationFailureHandler" />
-	-->
+	
 	<http auto-config="false">
 		<access-denied-handler error-page="/login?denied=403" />
 		<intercept-url pattern="/login" access="permitAll()" />
