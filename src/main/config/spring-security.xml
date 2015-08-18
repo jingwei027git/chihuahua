@@ -12,7 +12,8 @@
     <http pattern="/**/*.js" security="none" />
     
     <http pattern="/errors/**" use-expressions="true" auto-config="true" create-session="stateless">
-    	<intercept-url pattern="/errors/**" access="hasRole('ADMIN')" />
+    	<csrf disabled="true" />
+    	<intercept-url pattern="/errors/**" access="permitAll()" />
     	<http-basic />
     </http>
 	
