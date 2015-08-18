@@ -18,7 +18,7 @@
 	
 	<http auto-config="false">
 		<access-denied-handler error-page="/login?denied=403" />
-		<intercept-url pattern="/login" access="hasRole('ANONYMOUS')" />
+		<intercept-url pattern="/login" access="permitAll()" />
 		<intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/**" access="hasRole('USER')" />
 		<form-login login-page="/login"
