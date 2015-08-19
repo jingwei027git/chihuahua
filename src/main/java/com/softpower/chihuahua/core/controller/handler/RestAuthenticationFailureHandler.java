@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
@@ -24,7 +25,12 @@ public class RestAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 			AuthenticationException exception)
 			throws IOException, ServletException
 	{
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		if (exception != null &&
+			BadCredentialsException.class.isAssignableFrom(exception.getClass())) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}else{
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		}
 	}
 
 }

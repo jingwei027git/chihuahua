@@ -1,4 +1,4 @@
-package com.softpower.chihuahua.core.mapper;
+package com.softpower.chihuahua.core.controller.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
