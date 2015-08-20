@@ -1,11 +1,15 @@
 package com.softpower.chihuahua.service.impl;
 
+import static com.softpower.chihuahua.core.util.string.RbStrings.begline;
+import static com.softpower.chihuahua.core.util.string.RbStrings.endline;
+import static com.softpower.chihuahua.core.util.string.RbStrings.newline;
+
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.core.service.RbModelServiceImpl;
 import com.softpower.chihuahua.core.util.string.RbStrings;
 import com.softpower.chihuahua.dao.JslogAppDao;
@@ -25,9 +29,10 @@ import lombok.Getter;
 
 @Getter
 @Component("JslogOnErrorService")
-@SuppressWarnings("serial")
-public class JslogOnErrorServiceImpl extends RbModelServiceImpl<JslogOnErrorModel, JslogOnErrorModel> implements JslogOnErrorService {
-	
+public class JslogOnErrorServiceImpl
+	extends RbModelServiceImpl<JslogOnErrorModel, JslogOnErrorModel>
+	implements JslogOnErrorService
+{
 	@Resource(name = "JslogAppDao")
 	private JslogAppDao jslogAppDao;
 	
@@ -45,7 +50,8 @@ public class JslogOnErrorServiceImpl extends RbModelServiceImpl<JslogOnErrorMode
 	
 	
 	@Override
-	public long create(JslogOnErrorModel model, UserDetails user) {
+	public long create(RbWrapperDto<JslogOnErrorModel> wrapperDto) {
+		final JslogOnErrorModel model = wrapperDto.getModel();
 		JslogError error = model.getError();
 		JslogClient client = model.getClient();
 		JslogScreenshot screenshot = model.getScreenshot();
@@ -61,26 +67,27 @@ public class JslogOnErrorServiceImpl extends RbModelServiceImpl<JslogOnErrorMode
 			error.setScreenshotId(screenshot.getId());
 		}
 		
-		error.init(user.getUsername());
+		error.init(wrapperDto.getUsername());
 		jslogErrorDao.save(error);
 		
 		return error.getId();
 	}
 	
 	@Override
-	public int update(JslogOnErrorModel model, UserDetails user) {
+	public int update(RbWrapperDto<JslogOnErrorModel> wrapperDto) {
+		final JslogOnErrorModel model = wrapperDto.getModel();
 		JslogError jslogError = jslogErrorDao.findOne(model.getError().getId());
 		
 		if (model.getScreenshot() != null) {
 			JslogScreenshot screenshot = model.getScreenshot();
 			jslogScreenshotDao.save(screenshot);
-			return jslogErrorDao.updateScreenshotIdById(jslogError.getId(), screenshot.getId(), user.getUsername(), DateTime.now());
+			return jslogErrorDao.updateScreenshotIdById(jslogError.getId(), screenshot.getId(), wrapperDto.getUsername(), DateTime.now());
 		}
 		
 		if (model.getSourcecode() != null) {
 			JslogSourcecode sourcecode = model.getSourcecode();
 			jslogSourcecodeDao.save(sourcecode);
-			return jslogErrorDao.updateSourcecodeIdById(jslogError.getId(), sourcecode.getId(), user.getUsername(), DateTime.now());
+			return jslogErrorDao.updateSourcecodeIdById(jslogError.getId(), sourcecode.getId(), wrapperDto.getUsername(), DateTime.now());
 		}
 		
 		return 0;
@@ -90,22 +97,22 @@ public class JslogOnErrorServiceImpl extends RbModelServiceImpl<JslogOnErrorMode
 	public String generateScriptCodeByAppId(Long appId, String url, boolean screenshot, boolean sourcecode) {
 		final JslogApp app = jslogAppDao.findOne(appId);
 		String scriptCode = RbStrings.concats(
-			"<script type=\"text/javascript\" src=\"" + url + "/js/jslogOnError.js\"></script>", "\n",
-			"<script type=\"text/javascript\">", "\n",
-			"<!--", "\n",
-			"var jslog_params = jslog_params || [];", "\n",
-			"jslog_params.push(\"" + app.getAppKey() + "\");", "\n",
-			"jslog_params.push(\"" + url + "/errors\");", "\n",
-			"var jslog_opts = jslog_opts || {};", "\n",
-			"jslog_opts.screenshot = " + screenshot + ";", "\n",
-			"jslog_opts.sourcecode = " + sourcecode + ";", "\n",
-			"errors = [];", "\n",
-			"window.onerror = function() {",
-			"errors.push(arguments);",
-			"JSLOG_ONERROR.collect();",
-			"}", "\n",
-			"//-->", "\n",
-			"</script>"
+			begline(), "<script type=\"text/javascript\" src=\"" + url + "/js/jslogOnError.js\"></script>",
+			newline(), "<script type=\"text/javascript\">",
+			newline(), "<!--",
+			newline(), "var jslog_params = jslog_params || [];",
+			newline(), "jslog_params.push(\"" + app.getAppKey() + "\");",
+			newline(), "jslog_params.push(\"" + url + "/errors\");",
+			newline(), "var jslog_opts = jslog_opts || {};",
+			newline(), "jslog_opts.screenshot = " + screenshot + ";",
+			newline(), "jslog_opts.sourcecode = " + sourcecode + ";",
+			newline(), "errors = [];",
+			newline(), "window.onerror = function() {",
+			newline(), "errors.push(arguments);",
+			newline(), "JSLOG_ONERROR.collect();",
+			newline(), "}",
+			newline(), "//-->",
+			endline(), "</script>"
 		);
 		
 		return scriptCode;

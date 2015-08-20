@@ -11,7 +11,7 @@
 				AND username = #{cond.username}
 			</if>
 			<if test="cond.fullname != null">
-				AND fullname = #{cond.fullname}
+				AND fullname LIKE '${cond.fullname}%'
 			</if>
 			<if test="cond.email != null">
 				AND email = #{cond.email}

@@ -16,8 +16,12 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
+@ContextConfiguration(locations = {
+	"classpath:spring-security.xml",
+	"classpath:spring-datasource-env.xml",
+	"classpath:spring-datasource.xml",
+	"classpath:spring-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-datasource.xml", "classpath:spring-context.xml" })
 @TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = true)
 @Transactional("coreTransactionManager")
 @Ignore
@@ -25,7 +29,7 @@ public class GenericTest extends AbstractTest {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
-	protected UserDetails getPrincipalUser() {
+	protected UserDetails getPrincipal() {
 		RbUser user = new RbUser().init("TEST");
 		user.setId(1L);
 		user.setUsername("TEST-USER");

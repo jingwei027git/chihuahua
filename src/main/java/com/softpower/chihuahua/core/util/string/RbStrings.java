@@ -50,5 +50,17 @@ public class RbStrings {
 		
 		return buf.toString();
 	}
+	
+	public static String newline() {
+		return System.getProperty("line.separator");
+	}
+	
+	public static String begline() {
+		return "";
+	}
+	
+	public static String endline() {
+		return "";
+	}
 
 }

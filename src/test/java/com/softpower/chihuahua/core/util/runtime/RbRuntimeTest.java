@@ -5,17 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.google.common.io.Files;
+import com.softpower.chihuahua.test.GenericTest;
+
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.google.common.io.Files;
-import com.softpower.chihuahua.core.util.runtime.RbRuntime;
-import com.softpower.chihuahua.test.GenericTest;
-
-
+@Ignore
 public class RbRuntimeTest extends GenericTest {
 
 	@Test

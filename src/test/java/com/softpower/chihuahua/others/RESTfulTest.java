@@ -1,7 +1,5 @@
 package com.softpower.chihuahua.others;
 
-import org.junit.Test;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Reference : https://malalanayake.wordpress.com/2014/06/27/spring-security-on-rest-api/
@@ -32,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
  * curl -i -H "Content-Type:text/plain" -X GET -b ./cookies.txt http://localhost:28080/chihuahua/errors/scriptcode/1
  * </pre>
  */
+@Ignore
 public class RESTfulTest {
 	final String baseURL = "http://localhost:28080/chihuahua/errors/j_spring_security_check";
 	final String testURL = "http://localhost:28080/chihuahua/errors/scriptcode/1";

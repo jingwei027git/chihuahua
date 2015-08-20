@@ -20,7 +20,7 @@ public class RbRoleDaoTest extends GenericTest {
 	@Test
 	public void testFindByUserId() {
 		List<RbRole> roles = rbRoleDao.findByUserIdAndSysStatus(1L, YesNo.Y);
-		Assert.assertEquals(2, Iterables.size(roles));
+		Assert.assertEquals(1, Iterables.size(roles));
 	}
 
 	@Test

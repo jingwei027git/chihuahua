@@ -3,7 +3,6 @@ package com.softpower.chihuahua.core.entity;
 import org.joda.time.DateTime;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * include {createUser, createTime, modifyUser, modifyTime}
@@ -11,7 +10,6 @@ import lombok.Setter;
  * <p>
  */
 @Getter
-@Setter
 @SuppressWarnings("serial")
 public abstract class RbEntityLogTimeBase extends RbEntityBase {
 
@@ -26,11 +24,11 @@ public abstract class RbEntityLogTimeBase extends RbEntityBase {
 	
 	public <T extends RbEntityLogTimeBase> T init(final String createOrModifyUser, final DateTime createOrModifyTime) {
 		if (getId() == null) {
-			setCreateUser(createOrModifyUser);
-			setCreateTime(createOrModifyTime);
+			createUser = createOrModifyUser;
+			createTime = createOrModifyTime;
 		}
-		setModifyUser(createOrModifyUser);
-		setModifyTime(createOrModifyTime);
+		modifyUser = createOrModifyUser;
+		modifyTime = createOrModifyTime;
 		
 		@SuppressWarnings("unchecked")
 		T t = (T) this;

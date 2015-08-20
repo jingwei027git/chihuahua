@@ -2,10 +2,9 @@ package com.softpower.chihuahua.core.service;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import com.softpower.chihuahua.core.dao.RbEntityDao;
 import com.softpower.chihuahua.core.dto.RbCond;
+import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.entity.RbEntityLogTimeBase;
 import com.softpower.chihuahua.core.pagination.Pagination;
@@ -13,32 +12,29 @@ import com.softpower.chihuahua.core.pagination.Pagination;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("serial")
 public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, DAO extends RbEntityDao<T, Long>>
-		extends RbModelServiceImpl<T, C>
-		implements RbEntityService<T, C, Long> {
-
-	public abstract DAO getDao();
+		implements RbEntityService<T, C, Long>
+{
+	protected abstract DAO getDao();
 
 	@Override
-	public T load(Long pk) {
+	public T load(RbWrapperDto<Long> wrapperDto) {
+		final Long pk = wrapperDto.getModel();
 		T entity = getDao().findOne(pk);
 		return entity;
 	}
 
 	@Override
-	public List<T> list(C condition, Pagination pagination) {
+	public List<T> list(RbWrapperDto<C> wrapperDto, Pagination pagination) {
+		final C condition = wrapperDto.getModel();
 		return getDao().findAll(condition, pagination);
 	}
 
 	@Override
-	public long create(T entity) {
+	public long create(RbWrapperDto<T> wrapperDto) {
+		final T entity = wrapperDto.getModel();
 		if (entity instanceof RbEntityLogTimeBase) {
-			final RbEntityLogTimeBase e = (RbEntityLogTimeBase) entity;
-			if (e.getCreateTime() == null) {
-				e.setCreateTime(DateTime.now());
-				e.setModifyTime(e.getCreateTime());
-			}
+			((RbEntityLogTimeBase) entity).init(wrapperDto.getUsername());
 		}
 
 		int count = getDao().save(entity);
@@ -47,12 +43,10 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 	}
 
 	@Override
-	public int update(T entity) {
+	public int update(RbWrapperDto<T> wrapperDto) {
+		final T entity = wrapperDto.getModel();
 		if (entity instanceof RbEntityLogTimeBase) {
-			final RbEntityLogTimeBase e = (RbEntityLogTimeBase) entity;
-			if (e.getModifyTime() == null) {
-				e.setModifyTime(DateTime.now());
-			}
+			((RbEntityLogTimeBase) entity).init(wrapperDto.getUsername());
 		}
 
 		int count = getDao().update(entity);
@@ -61,16 +55,17 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 	}
 
 	@Override
-	public int delete(T entity) {
+	public int delete(RbWrapperDto<T> wrapperDto) {
+		final T entity = wrapperDto.getModel();
 		int count = getDao().delete(entity);
 		log.debug("deleteCount {}", count);
 		return count;
 	}
 
 	@Override
-	public int delete(final Long pk) {
+	public int deleteById(RbWrapperDto<Long> wrapperDto) {
 		int count = 0;
-		T entity = load(pk);
+		T entity = load(wrapperDto);
 		if (entity != null) {
 			count = getDao().delete(entity);
 		} else {
@@ -79,5 +74,5 @@ public abstract class RbEntityServiceImpl<T extends RbEntity, C extends RbCond, 
 		log.debug("deleteCount {}", count);
 		return count;
 	}
-
+	
 }

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.common.collect.Iterables;
 import com.softpower.chihuahua.condition.RbUserCond;
+import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.core.enums.SortOption;
 import com.softpower.chihuahua.core.enums.YesNo;
 import com.softpower.chihuahua.core.pagination.OrderBy;
@@ -38,7 +39,7 @@ public class RbUserServiceTest extends GenericTest {
 			user.setContinueErrorCount(0);
 			user.setLastChangePasswordTime(DateTime.now());
 			user.setExpireTime(DateTime.parse("2016-01-01"));
-			rbUserService.create(user);
+			rbUserService.create(RbWrapperDto.of(user, getPrincipal()));
 		}
 	}
 
@@ -48,7 +49,8 @@ public class RbUserServiceTest extends GenericTest {
 		final String namePrefix = "testFindByCondition";
 		createDummyUser(namePrefix, 26);
 
-		Iterable<RbUser> users = rbUserService.list(null, Pagination.ALL);
+		Iterable<RbUser> users = rbUserService.list(RbWrapperDto.of(new RbUserCond(), getPrincipal()), Pagination.ALL);
+		Assert.assertTrue(Iterables.size(users) >= 26);
 	}
 
 	@Test
@@ -66,7 +68,7 @@ public class RbUserServiceTest extends GenericTest {
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<RbUser> users = rbUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(RbWrapperDto.of(cond, getPrincipal()), page);
 		Assert.assertEquals(10, Iterables.size(users));
 		Assert.assertEquals(namePrefix + "001", Iterables.getFirst(users, null).getUsername());
 		Assert.assertEquals(namePrefix + "010", Iterables.getLast(users, null).getUsername());
@@ -86,7 +88,7 @@ public class RbUserServiceTest extends GenericTest {
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<RbUser> users = rbUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(RbWrapperDto.of(cond, getPrincipal()), page);
 		Assert.assertEquals(10, Iterables.size(users));
 		Assert.assertEquals(namePrefix + "011", Iterables.getFirst(users, null).getUsername());
 		Assert.assertEquals(namePrefix + "020", Iterables.getLast(users, null).getUsername());
@@ -105,7 +107,7 @@ public class RbUserServiceTest extends GenericTest {
 		page.setSize(10);
 		page.setOrderBy(OrderBy.DEFAULT);
 
-		Iterable<RbUser> users = rbUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(RbWrapperDto.of(cond, getPrincipal()), page);
 		Assert.assertEquals(6, Iterables.size(users));
 		Assert.assertEquals(namePrefix + "021", Iterables.getFirst(users, null).getUsername());
 		Assert.assertEquals(namePrefix + "026", Iterables.getLast(users, null).getUsername());
@@ -124,7 +126,7 @@ public class RbUserServiceTest extends GenericTest {
 		page.setSize(10);
 		page.setOrderBy(OrderBy.create("username", SortOption.DESC));
 
-		Iterable<RbUser> users = rbUserService.list(cond, page);
+		Iterable<RbUser> users = rbUserService.list(RbWrapperDto.of(cond, getPrincipal()), page);
 		Assert.assertEquals(10, Iterables.size(users));
 		Assert.assertEquals(namePrefix + "016", Iterables.getFirst(users, null).getUsername());
 		Assert.assertEquals(namePrefix + "007", Iterables.getLast(users, null).getUsername());
@@ -138,7 +140,7 @@ public class RbUserServiceTest extends GenericTest {
 
 	@Test
 	public void testToStringExclude() {
-		RbUser user = rbUserService.load(1L);
+		RbUser user = rbUserService.load(RbWrapperDto.of(1L, getPrincipal()));
 		Assert.assertNotNull(user);
 		Assert.assertTrue(user.toString().indexOf("password") == -1);
 	}
@@ -146,7 +148,7 @@ public class RbUserServiceTest extends GenericTest {
 	@Test
 	public void testDelete() {
 		RbUser user = rbUserService.getByUsername("admin");
-		rbUserService.delete(user);
+		rbUserService.delete(RbWrapperDto.of(user, getPrincipal()));
 	}
 
 	@Test
@@ -163,7 +165,7 @@ public class RbUserServiceTest extends GenericTest {
 		user.setContinueErrorCount(0);
 		user.setLastChangePasswordTime(DateTime.now());
 		user.setExpireTime(DateTime.parse("2016-01-01"));
-		long id = rbUserService.create(user);
+		long id = rbUserService.create(RbWrapperDto.of(user, getPrincipal()));
 		Assert.assertNotNull(id);
 	}
 

@@ -3,6 +3,7 @@ package com.softpower.chihuahua.service;
 import javax.annotation.Resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.datamodel.JslogOnErrorModel;
 import com.softpower.chihuahua.test.GenericTest;
 
@@ -28,7 +29,7 @@ public class JslogOnErrorServiceTest extends GenericTest {
 	public void testOnErrorSave() {
 		JslogOnErrorModel model = getModel();
 		model.getError().init("TEST");
-		jslogOnErrorService.create(model, getPrincipalUser());
+		jslogOnErrorService.create(RbWrapperDto.of(model, getPrincipal()));
 	}
 
 }

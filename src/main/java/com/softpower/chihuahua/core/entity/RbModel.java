@@ -1,8 +1,8 @@
 package com.softpower.chihuahua.core.entity;
 
-import java.io.Serializable;
+import com.softpower.chihuahua.core.dto.RbDto;
 
 
-public interface RbModel extends Serializable {
+public interface RbModel extends RbDto {
 
 }

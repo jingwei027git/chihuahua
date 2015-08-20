@@ -1,0 +1,60 @@
+package com.softpower.chihuahua.core.dto;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+
+import lombok.Getter;
+
+@SuppressWarnings("serial")
+public class RbWrapperDto<T> implements RbDto {
+	
+	@Getter
+	private Optional<T> modelOptional;
+	
+	@Getter
+	private UserDetails principal;
+	
+	@Getter
+	private Map<String, Object> appendMap = new HashMap<>();
+	
+	
+	public static <T> RbWrapperDto<T> of(
+		@Nonnull T model,
+		@Nonnull UserDetails userDetail) {
+		return new RbWrapperDto<>(model, userDetail);
+	}
+	
+	private RbWrapperDto(
+		@Nonnull T model,
+		@Nonnull UserDetails userDetail)
+	{
+		Preconditions.checkArgument(model != null);
+		Preconditions.checkArgument(userDetail != null);
+		this.modelOptional = Optional.of(model);
+		this.principal = userDetail;
+	}
+	
+	public T getModel() {
+		return modelOptional.get();
+	}
+	
+	public String getUsername() {
+		return principal.getUsername();
+	}
+	
+	public void pubAppendData(String key, Object data) {
+		getAppendMap().put(key, data);
+	}
+	
+	public Object getAppendData(String key) {
+		return getAppendMap().get(key);
+	}
+
+}
