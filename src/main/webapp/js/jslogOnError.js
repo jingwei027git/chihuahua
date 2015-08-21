@@ -182,6 +182,7 @@ window.JSLOG_ONERROR = (function() {
 	function postOnError(jslogOnError, options) {
 		TRACE('postOnError {}');
 		try {
+		$.support.cors = true;
 		$.ajax({
             url: paramJslogAbsPath,
             type: 'post',
