@@ -1,34 +1,34 @@
 package com.softpower.chihuahua.test;
 
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.softpower.chihuahua.entity.RbUser;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.softpower.chihuahua.entity.RbUser;
 
 @ContextConfiguration(locations = {
 	"classpath:spring-security.xml",
 	"classpath:spring-datasource-env.xml",
 	"classpath:spring-datasource.xml",
 	"classpath:spring-context.xml" })
-@RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(transactionManager = "coreTransactionManager", defaultRollback = true)
 @Transactional("coreTransactionManager")
+@Rollback(true)
+@RunWith(SpringJUnit4ClassRunner.class)
 @Ignore
 public class GenericTest extends AbstractTest {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	
+
 	protected UserDetails getPrincipal() {
 		RbUser user = new RbUser().init("TEST");
 		user.setId(1L);
