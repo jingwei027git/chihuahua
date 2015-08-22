@@ -24,6 +24,12 @@ import com.softpower.chihuahua.service.JslogOnErrorService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+//@CrossOrigin(
+//	origins = "*",
+//	allowCredentials = "true",
+//	allowedHeaders = "*",
+//	maxAge = 0,
+//	methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS} )
 @RestController
 @RequestMapping("/errors")
 public class JslogOnErrorController extends RbControllerBase {

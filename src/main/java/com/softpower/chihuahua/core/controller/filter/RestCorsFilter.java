@@ -27,9 +27,11 @@ public class RestCorsFilter implements Filter {
 		
 		final HttpServletResponse res = (HttpServletResponse) response;
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+		res.setHeader("Access-Control-Expose-Headers", "Content-Language, Content-Type");
 		res.setHeader("Access-Control-Max-Age", "3600");
-		res.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+		res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
 		chain.doFilter(request, response);
 	}
 

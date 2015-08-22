@@ -26,18 +26,28 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
+	<!-- 
+	<mvc:cors>
+		<mvc:mapping path="/errors/**"
+			allowed-origins="*"
+			allowed-methods="GET, PUT, POST, DELETE, OPTIONS"
+			allowed-headers="x-requested-with, content-type, accept"
+			exposed-headers="content-type"
+			allow-credentials="true"
+			max-age="3600" />
+	</mvc:cors>
+	-->
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="favorPathExtension" value="true" /><!-- /user/{userid}.json -->
-		<property name="favorParameter" value="false" /><!-- /user/{userid}?format=json -->
-		<property name="ignoreAcceptHeader" value="false" /><!-- Accept:application/json -->
-		<property name="mediaTypes">
+		<!--<property name="favorPathExtension" value="true" />--><!-- /user/{userid}.json -->
+		<!--<property name="favorParameter" value="false" />--><!-- /user/{userid}?format=json -->
+		<!--<property name="ignoreAcceptHeader" value="false" />--><!-- Accept:application/json -->
+		<!--<property name="mediaTypes">
 			<map>
 				<entry key="html" value="text/html" />
 				<entry key="json" value="application/json" />
 				<entry key="xml" value="application/xml" />
 			</map>
-		</property>
+		</property>-->
 		<property name="viewResolvers">
 			<list>
 				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>

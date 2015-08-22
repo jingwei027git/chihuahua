@@ -10,19 +10,17 @@
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script type="text/javascript" src="//libs.cncdn.cn/html2canvas/0.5.0-alpha2/html2canvas.min.js "></script>
 	
-	<script type="text/javascript" src="http://localhost:28080/chihuahua/js/jslogOnError.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jslogOnError.js"></script>
 	<script type="text/javascript">
-	<!--
 	var jslog_params = jslog_params || [];
 	jslog_params.push("3d9a24a783494c0b9ef6eb88a811a4a5");
-	jslog_params.push("http://localhost:28080/chihuahua/errors");
+	jslog_params.push("${pageContext.request.contextPath}/errors");
 	var jslog_opts = jslog_opts || {};
 	jslog_opts.screenshot = true;
 	jslog_opts.sourcecode = true;
 	jslog_opts.trace = true;
 	errors = [];
 	window.onerror = function() {errors.push(arguments);JSLOG_ONERROR.collect();}
-	//-->
 	</script>
 </head>
 <body>

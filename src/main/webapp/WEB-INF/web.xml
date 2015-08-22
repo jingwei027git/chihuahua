@@ -54,6 +54,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- REST CORS filter -->
 	<filter>
 		<filter-name>restCorsFilter</filter-name>
 		<filter-class>com.softpower.chihuahua.core.controller.filter.RestCorsFilter</filter-class>
@@ -62,7 +63,7 @@
 		<filter-name>restCorsFilter</filter-name>
 		<url-pattern>/errors/*</url-pattern>
 	</filter-mapping>
-
+	
 	<session-config>
 		<session-timeout>1</session-timeout>
 	</session-config>

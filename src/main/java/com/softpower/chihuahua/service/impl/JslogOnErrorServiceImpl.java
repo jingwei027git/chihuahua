@@ -112,7 +112,7 @@ public class JslogOnErrorServiceImpl
 			newline(), "JSLOG_ONERROR.collect();",
 			newline(), "}",
 			newline(), "//-->",
-			endline(), "</script>"
+			newline(), "</script>"
 		);
 		
 		return scriptCode;
