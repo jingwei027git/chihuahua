@@ -2,6 +2,8 @@ package com.softpower.chihuahua.controller;
 
 import javax.annotation.Resource;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,42 +23,34 @@ import com.softpower.chihuahua.core.controller.delegate.RbModelRestControllerDel
 import com.softpower.chihuahua.datamodel.JslogOnErrorModel;
 import com.softpower.chihuahua.service.JslogOnErrorService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
-//@CrossOrigin(
-//	origins = "*",
-//	allowCredentials = "true",
-//	allowedHeaders = "*",
-//	maxAge = 0,
-//	methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS} )
 @RestController
 @RequestMapping("/errors")
 public class JslogOnErrorController extends RbControllerBase {
 
 	@Resource(name = "JslogOnErrorService")
 	private JslogOnErrorService jslogErrorService;
-	
+
 	private RbModelRestControllerDelegate<JslogOnErrorModel, JslogOnErrorModel> delegate;
-	
-	
+
+
 	@Override
 	public void init() {
 		delegate = new RbModelRestControllerDelegate<>(jslogErrorService);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public HttpEntity<JslogOnErrorModel> create(@RequestBody JslogOnErrorModel model) {
 		return delegate.create(model);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public HttpEntity<Void> update(@RequestBody JslogOnErrorModel model) {
 		return delegate.update(model);
 	}
-	
+
 	@RequestMapping(value = "/scriptcode/{appId}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
 	public HttpEntity<String> generateScriptCode(
@@ -70,7 +64,7 @@ public class JslogOnErrorController extends RbControllerBase {
 		final String reqUrl = getRequest().getRequestURL().toString();
 		final String url = reqUrl.substring(0, reqUrl.indexOf("/errors"));
         String scriptCode = jslogErrorService.generateScriptCodeByAppId(appId, url, screenshot, sourcecode);
-        
+
     	return new ResponseEntity<>(scriptCode, HttpStatus.OK);
 	}
 
