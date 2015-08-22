@@ -3,7 +3,8 @@ package com.softpower.chihuahua.core.controller.delegate;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Resource;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,6 @@ import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.core.entity.RbEntity;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.core.service.RbEntityService;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond, PK extends Serializable> {
@@ -77,7 +74,7 @@ public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond
 		} else {
 			responseEntity = new ResponseEntity<>(HttpStatus.OK);
 		}
-		
+
 		log.debug("Reading : " + responseEntity);
 		return responseEntity;
 	}
@@ -102,7 +99,7 @@ public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond
 		} else {
 			responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		log.debug("Updating : " + responseEntity);
 		return responseEntity;
 	}
@@ -126,7 +123,7 @@ public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond
 		} else {
 			responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		log.debug("Deleting : " + responseEntity);
 		return responseEntity;
 	}
@@ -138,7 +135,7 @@ public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond
 	 */
 	public ResponseEntity<List<T>> list() {
 		log.info("Listing entities");
-		
+
 		ResponseEntity<List<T>> responseEntity = null;
 		List<T> list = getRbEntityService().list(null, Pagination.ALL);
 		if (Iterables.isEmpty(list)) {
@@ -146,7 +143,7 @@ public class RbEntityRestControllerDelegate<T extends RbEntity, C extends RbCond
 		} else {
 			responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		}
-		
+
 		log.debug("Listing : " + responseEntity);
 		return responseEntity;
 	}

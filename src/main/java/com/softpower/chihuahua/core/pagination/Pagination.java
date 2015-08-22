@@ -14,7 +14,7 @@ public class Pagination extends RowBounds implements Serializable {
 	public static final int SIZE_DEFAULT = 10;
 	public static final int SIZE_MAXIUM = Integer.MAX_VALUE;
 
-	public static Pagination ALL = new Pagination(PAGE_DEFAULT, SIZE_MAXIUM, OrderBy.DEFAULT);
+	public static final Pagination ALL = new Pagination(PAGE_DEFAULT, SIZE_MAXIUM, OrderBy.DEFAULT);
 
 	@Getter @Setter private int page;
 	@Getter @Setter private int size;

@@ -77,10 +77,11 @@ public class RbPaginationInterceptor implements Interceptor {
 
 		if (dbType == null) {
 			log.debug("No '{}' dialect type found", dbType);
-			throw new RuntimeException(
+			throw new NullPointerException(
 					"configuration(mybatis-config.xml) need to add properties that name is dialect to setting db type ORACLE/MSSQL/MYSQL/...");
+		}else {
+			return dbType;
 		}
-		return dbType;
 	}
 
 	private void keepSql(Pagination pagination, BoundSql boundSql) {

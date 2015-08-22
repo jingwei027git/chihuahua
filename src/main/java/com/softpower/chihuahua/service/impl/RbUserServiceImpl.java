@@ -14,7 +14,6 @@ import com.softpower.chihuahua.service.RbUserService;
 
 @Getter
 @Component("RbUserService")
-@SuppressWarnings("serial")
 public class RbUserServiceImpl extends RbEntityServiceImpl<RbUser, RbUserCond, RbUserDao> implements RbUserService {
 
 	@Resource(name="RbUserDao")

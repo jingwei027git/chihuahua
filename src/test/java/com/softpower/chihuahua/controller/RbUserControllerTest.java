@@ -8,6 +8,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +34,6 @@ import com.softpower.chihuahua.service.RbUserService;
 import com.softpower.chihuahua.test.GenericTest;
 import com.softpower.chihuahua.test.util.TestUtil;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 @Ignore
 public class RbUserControllerTest extends GenericTest {
 
@@ -44,7 +44,7 @@ public class RbUserControllerTest extends GenericTest {
 
 	@InjectMocks
     private RbUserController userController;
-	
+
 
 	@Before
 	public void setUp() {
@@ -124,7 +124,7 @@ public class RbUserControllerTest extends GenericTest {
 		user.setId(null);
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JodaModule());
-		String json = mapper.writeValueAsString(user);
+//		String json = mapper.writeValueAsString(user);
 
 //		when(rbUserServiceMock.create(any())).thenAnswer(new Answer<Object>() {
 //			@Override

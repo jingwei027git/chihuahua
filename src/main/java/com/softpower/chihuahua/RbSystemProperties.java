@@ -1,10 +1,14 @@
 package com.softpower.chihuahua;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 public class RbSystemProperties {
 
 	public static final String ENVIRONMENT = "environment";
 
-	public static String environment;
+	@Getter @Setter
+	private static String environment;
 
 }

@@ -27,9 +27,9 @@ public class RbServletContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		applicationContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
 		Properties props = (Properties) applicationContext.getBean("sysProperties");
-		RbSystemProperties.environment = props.getProperty(RbSystemProperties.ENVIRONMENT);
+		RbSystemProperties.setEnvironment(props.getProperty(RbSystemProperties.ENVIRONMENT));
 
-		initEnvironment(RbSystemProperties.environment);
+		initEnvironment(RbSystemProperties.getEnvironment());
 
 		log.info("contextInitialized");
 	}

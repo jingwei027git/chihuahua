@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -17,6 +19,7 @@ import com.google.common.base.Charsets;
  * RbRuntime
  * <p>
  * <p>
+ * FIXME david
  */
 public class RbRuntime {
 
@@ -29,10 +32,11 @@ public class RbRuntime {
 			INPUT, ERROR
 		};
 
+		@SneakyThrows(UnsupportedEncodingException.class)
 		InputStreamConsumer(TYPE type, InputStream is, OutputStream os) {
 			this.type = type;
 			this.is = is;
-			this.os = new PrintStream(os);
+			this.os = new PrintStream(os, false, StandardCharsets.UTF_8.name());
 		}
 
 		@SneakyThrows(IOException.class)
@@ -87,8 +91,8 @@ public class RbRuntime {
 		@Cleanup ByteArrayOutputStream inputBaos = new ByteArrayOutputStream();
 		@Cleanup ByteArrayOutputStream errorBaos = new ByteArrayOutputStream();
 		int exitVal = exec(args, inputBaos, errorBaos);
-		inputSb.append(inputBaos.toString());
-		errorSb.append(errorBaos.toString());
+		inputSb.append(inputBaos.toString(StandardCharsets.UTF_8.name()));
+		errorSb.append(errorBaos.toString(StandardCharsets.UTF_8.name()));
 
 		return exitVal;
 	}
@@ -97,7 +101,7 @@ public class RbRuntime {
 	public static int execToString(String args[], StringBuffer mixSb) {
 		@Cleanup ByteArrayOutputStream mixBaos = new ByteArrayOutputStream();
 		int exitVal = exec(args, mixBaos, mixBaos);
-		mixSb.append(mixBaos.toString());
+		mixSb.append(mixBaos.toString(StandardCharsets.UTF_8.name()));
 
 		return exitVal;
 	}

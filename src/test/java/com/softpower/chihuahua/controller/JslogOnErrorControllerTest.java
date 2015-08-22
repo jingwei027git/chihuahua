@@ -61,8 +61,7 @@ public class JslogOnErrorControllerTest extends GenericTest {
 
 		mockMvc.perform(put("/errors/1")
 			.contentType(TestUtil.APPLICATION_JSON_UTF8).content(jsonStr))
-			.andExpect(status().isNotFound())
-			.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8) );
+			.andExpect(status().isNotFound());
 	}
 
 }

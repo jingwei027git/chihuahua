@@ -1,10 +1,11 @@
 package com.softpower.chihuahua.service.impl;
 
 import static com.softpower.chihuahua.core.util.string.RbStrings.begline;
-import static com.softpower.chihuahua.core.util.string.RbStrings.endline;
 import static com.softpower.chihuahua.core.util.string.RbStrings.newline;
 
 import javax.annotation.Resource;
+
+import lombok.Getter;
 
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,6 @@ import com.softpower.chihuahua.entity.JslogScreenshot;
 import com.softpower.chihuahua.entity.JslogSourcecode;
 import com.softpower.chihuahua.service.JslogOnErrorService;
 
-import lombok.Getter;
-
 @Getter
 @Component("JslogOnErrorService")
 public class JslogOnErrorServiceImpl
@@ -35,64 +34,64 @@ public class JslogOnErrorServiceImpl
 {
 	@Resource(name = "JslogAppDao")
 	private JslogAppDao jslogAppDao;
-	
+
 	@Resource(name = "JslogErrorDao")
 	private JslogErrorDao jslogErrorDao;
 
 	@Resource(name = "JslogClientDao")
 	private JslogClientDao jslogClientDao;
-	
+
 	@Resource(name = "JslogScreenshotDao")
 	private JslogScreenshotDao jslogScreenshotDao;
-	
+
 	@Resource(name = "JslogSourcecodeDao")
 	private JslogSourcecodeDao jslogSourcecodeDao;
-	
-	
+
+
 	@Override
 	public long create(RbWrapperDto<JslogOnErrorModel> wrapperDto) {
 		final JslogOnErrorModel model = wrapperDto.getModel();
 		JslogError error = model.getError();
 		JslogClient client = model.getClient();
 		JslogScreenshot screenshot = model.getScreenshot();
-		
+
 		JslogApp app = jslogAppDao.findByAppKey(model.getAppKey());
 		error.setAppId(app.getId());
-		
+
 		jslogClientDao.save(client);
 		error.setClientId(client.getId());
-		
+
 		if (screenshot != null) {
 			jslogScreenshotDao.save(screenshot);
 			error.setScreenshotId(screenshot.getId());
 		}
-		
+
 		error.init(wrapperDto.getUsername());
 		jslogErrorDao.save(error);
-		
+
 		return error.getId();
 	}
-	
+
 	@Override
 	public int update(RbWrapperDto<JslogOnErrorModel> wrapperDto) {
 		final JslogOnErrorModel model = wrapperDto.getModel();
 		JslogError jslogError = jslogErrorDao.findOne(model.getError().getId());
-		
+
 		if (model.getScreenshot() != null) {
 			JslogScreenshot screenshot = model.getScreenshot();
 			jslogScreenshotDao.save(screenshot);
 			return jslogErrorDao.updateScreenshotIdById(jslogError.getId(), screenshot.getId(), wrapperDto.getUsername(), DateTime.now());
 		}
-		
+
 		if (model.getSourcecode() != null) {
 			JslogSourcecode sourcecode = model.getSourcecode();
 			jslogSourcecodeDao.save(sourcecode);
 			return jslogErrorDao.updateSourcecodeIdById(jslogError.getId(), sourcecode.getId(), wrapperDto.getUsername(), DateTime.now());
 		}
-		
+
 		return 0;
 	}
-	
+
 	@Override
 	public String generateScriptCodeByAppId(Long appId, String url, boolean screenshot, boolean sourcecode) {
 		final JslogApp app = jslogAppDao.findOne(appId);
@@ -114,7 +113,7 @@ public class JslogOnErrorServiceImpl
 			newline(), "//-->",
 			newline(), "</script>"
 		);
-		
+
 		return scriptCode;
 	}
 

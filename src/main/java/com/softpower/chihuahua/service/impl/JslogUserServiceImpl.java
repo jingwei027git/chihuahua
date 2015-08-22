@@ -16,7 +16,6 @@ import com.softpower.chihuahua.service.JslogUserService;
 
 @Getter
 @Component("JslogUserService")
-@SuppressWarnings("serial")
 public class JslogUserServiceImpl extends RbEntityServiceImpl<JslogUser, JslogUserCond, JslogUserDao> implements JslogUserService {
 
 	@Resource(name="JslogUserDao")

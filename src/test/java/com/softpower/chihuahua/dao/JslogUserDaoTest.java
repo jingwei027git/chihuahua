@@ -1,5 +1,8 @@
 package com.softpower.chihuahua.dao;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,9 +16,6 @@ import com.softpower.chihuahua.core.pagination.OrderBy;
 import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.entity.JslogUser;
 import com.softpower.chihuahua.test.GenericTest;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class JslogUserDaoTest extends GenericTest {
 
@@ -59,7 +59,7 @@ public class JslogUserDaoTest extends GenericTest {
 		user.setFullname("testSave name");
 		user.setPassword(new BCryptPasswordEncoder().encode("softpower"));
 		user.setEmail("testsave@softpower.com.tw");
-		int count = jslogUserDao.save(user);
+		jslogUserDao.save(user);
 	}
 
 	@Test
