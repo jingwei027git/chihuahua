@@ -1,81 +1,102 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
+
+<%-- HEAD --%>
 <head>
+<meta charset="utf-8">
 <title>Login Page</title>
-<style>
-.error {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #a94442;
-	background-color: #f2dede;
-	border-color: #ebccd1;
+<link href="${pageContext.request.contextPath}/assets/semantic/2.0.8/semantic.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+body {
+	background-color: #DADADA;
 }
- 
-.msg {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #31708f;
-	background-color: #d9edf7;
-	border-color: #bce8f1;
+body > .grid {
+	height: 100%;
 }
- 
-#login-box {
-	width: 300px;
-	padding: 20px;
-	margin: 100px auto;
-	background: #fff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border: 1px solid #000;
+.column {
+	max-width: 450px;
 }
 </style>
 </head>
-<body onload='document.loginForm.username.focus();'>
- 
-	<h1>Spring Security Custom Login Form (XML)</h1>
- 
-	<div id="login-box">
- 
-		<h2>Login with Username and Password</h2>
- 
-		<c:if test="${not empty error}">
-			<div class="error">${error}</div>
-		</c:if>
-		
-		<c:if test="${not empty denied}">
-			<div class="error">${denied}</div>
-		</c:if>
-		
-		<c:if test="${not empty msg}">
-			<div class="msg">${msg}</div>
-		</c:if>
- 		<c:if test="${!empty SPRING_SECURITY_LAST_EXCEPTION}">
-			<p class="error"><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></p>
-		</c:if>
-		<form name='loginForm' action="<c:url value='/j_spring_security_check' />" method='POST'>
-			<table>
-				<tr>
-					<td>User:</td>
-					<td><input type='text' name='username' value=''></td>
-				</tr>
-				<tr>
-					<td>Password:</td>
-					<td><input type='password' name='password' /></td>
-				</tr>
-				<tr>
-					<td colspan='2'><input name="submit" type="submit" value="submit" /></td>
-				</tr>
-			</table>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		</form>
+
+<%-- BODY --%>
+<body>
+<script src="${pageContext.request.contextPath}/assets/jquery/1.8.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/semantic/2.0.8/semantic.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/angular/1.4.4/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/angular/semantic/0.0.3/angular-semantic-ui.min.js"></script>
+
+<div class="ui middle aligned center aligned grid">
+<div class="column">
+	<%-- LOGIN TITLE --%>
+	<div class="ui teal message">
+		<div class="header">
+			Chihuahua login page
+		</div>
 	</div>
- 
+	<form action="<c:url value='/j_spring_security_check' />" method='POST' class="ui large form">
+		<div class="ui stacked segment">
+			<%-- ACCOUNT field --%>
+			<div class="field">
+				<div class="ui left icon input">
+					<i class="user icon"></i>
+					<input type="text" name="username" id="account" placeholder="account (email address)" />
+				</div>
+			</div>
+			
+			<%-- PASSWORD filed --%>
+			<div class="field">
+				<div class="ui left icon input">
+					<i class="lock icon"></i>
+					<input type="password" name="password" id="password" placeholder="password" />
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</div>
+			</div>
+			
+			<%-- LOGIN button --%>
+			<div class="ui fluid large teal submit button">
+				Login
+			</div>
+		</div>
+		
+		<%-- FORM VALIDATION message --%>
+		<div class="ui error message">
+			<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+		</div>
+		
+		<%-- LOGIN ERROR message --%>
+		<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+	</form>
+</div>
+</div>
+
+<script type="text/javascript">
+<%-- FORM VALIDATE --%>
+(function ($) {
+	$('.ui.form').form({
+		fields: {
+			username: {
+				identifier: 'username',
+				rules: [{
+					type: 'empty',
+					prompt: 'Please enter Account'
+				}]
+			},
+			password: {
+				identifier: 'password',
+				rules: [{
+					type: 'empty',
+					prompt: 'Please enter Password'
+				}]
+			}
+		}
+	});
+}(jQuery));
+</script>
+
 </body>
+
 </html>

@@ -1,0 +1,1 @@
+src/main/webapp/assets/ : include javascript, css and image files

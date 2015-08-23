@@ -96,7 +96,7 @@ public class JslogOnErrorServiceImpl
 	public String generateScriptCodeByAppId(Long appId, String url, boolean screenshot, boolean sourcecode) {
 		final JslogApp app = jslogAppDao.findOne(appId);
 		String scriptCode = RbStrings.concats(
-			begline(), "<script type=\"text/javascript\" src=\"" + url + "/js/jslogOnError.js\"></script>",
+			begline(), "<script type=\"text/javascript\" src=\"" + url + "/assets/softpower/jslogOnError.js\"></script>",
 			newline(), "<script type=\"text/javascript\">",
 			newline(), "<!--",
 			newline(), "var jslog_params = jslog_params || [];",

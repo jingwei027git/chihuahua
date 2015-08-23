@@ -7,10 +7,8 @@
 		http://www.springframework.org/schema/security/spring-security-4.0.xsd
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
-
-	<http pattern="/**/*.png" security="none" />
-	<http pattern="/**/*.css" security="none" />
-	<http pattern="/**/*.js" security="none" />
+	
+	<http pattern="/assets/**" security="none" />
 	
 	<!-- RESTful stateful 
 	<http pattern="/errors/**" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
