@@ -35,6 +35,7 @@
     </http>
 	
 	<http auto-config="false">
+		<csrf request-matcher-ref="rbCsrfMatcher" />
 		<access-denied-handler error-page="/login?denied=403" />
 		<intercept-url pattern="/login" access="permitAll()" />
 		<intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
@@ -48,6 +49,13 @@
 		<logout logout-success-url="/login?logout" logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID" />
 		<session-management invalid-session-url="/login" />
 	</http>
+	<beans:bean id="rbCsrfMatcher" class="com.softpower.chihuahua.core.controller.matcher.RbCsrfMatcher">
+		<beans:property name="excludeUrls">
+			<beans:list>
+				<beans:value>/j_spring_security_check</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 	
 	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	<authentication-manager>
