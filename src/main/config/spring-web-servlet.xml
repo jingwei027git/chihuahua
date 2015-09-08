@@ -34,7 +34,7 @@
 			allowed-headers="x-requested-with, content-type, accept"
 			exposed-headers="content-type"
 			allow-credentials="true"
-			max-age="0" />
+			max-age="3600" />
 	</mvc:cors>
 	
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

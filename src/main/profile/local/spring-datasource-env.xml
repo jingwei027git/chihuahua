@@ -10,6 +10,7 @@
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/chihuahua?useUnicode=true&amp;characterEncoding=utf-8"></property>
 		<property name="user" value="softpower"></property>
 		<property name="password" value="softpower"></property>
+		<property name="testConnectionOnCheckout" value="true"></property>
 	</bean>
 
 </beans>

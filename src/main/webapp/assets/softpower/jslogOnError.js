@@ -10,18 +10,49 @@
  *
  */
 
-window.JSLOG_ONERROR = (function() {
+var JSLOG_ONERROR = JSLOG_ONERROR || (function(win) {
 	var paramAppKey = null;
 	var paramJslogAbsPath = null;
 
+	var jslogErrors = [];
+
+//	var _existOnerrorFx = null;
+	var _isInit = false;
 	var _options = null;
-
 	var _argumentCheckResult = 0; // {0 = unchecked, 1 = checked(OK), -1 = checked(NOT OK)}
-
-	var _MAX_ERR_COUNT = 2;
+	var _MAX_ERR_COUNT = 1;
 	var _errCount = 0;
 
-	this.collect = function() {
+	/** PUBLIC **/
+	function isInit() {
+		TRACE('isInit : ' + _isInit);
+		return _isInit;
+	}
+
+	function markInit() {
+		TRACE('markInit');
+		_isInit = true;
+	}
+
+	/** PUBLIC **/
+	function registerOnerror() { try {
+		TRACE('registerOnerror');
+//		if (typeof win.onerror === 'function') {
+//			TRACE('typeof win.onerror is function');
+//			_existOnerrorFx = win.onerror;
+//		}
+	    win.onerror = function() {
+//	    	if (_existOnerrorFx != null) {
+//	    		_existOnerrorFx.apply(arguments);
+//	    	}
+	        jslogErrors.push(arguments);
+	        collect();
+	    }
+	    markInit();
+	} catch (e) {} }
+
+	function collect() { try {
+		TRACE('collect');
 		if (!verifyRequirement()) { clearErrors(); return; }
 		if (!verifyErrCount()) { clearErrors(); return; }
 
@@ -33,13 +64,13 @@ window.JSLOG_ONERROR = (function() {
 
 		if (!verifyArguments()) { clearErrors(); return; }
 		var error;
-		errors = errors || [];
-		while (errors.length > 0) {
+		jslogErrors = jslogErrors || [];
+		while (jslogErrors.length > 0) {
 			_errCount++;
-			error = errors.shift();
+			error = jslogErrors.shift();
 			catchError(error);
 		}
-	}
+	} catch (e) {} }
 
 	function FORCETRACE(msg) {
 		try {
@@ -50,11 +81,7 @@ window.JSLOG_ONERROR = (function() {
 	}
 
 	function TRACE(msg) {
-		try {
-			if (jslog_opts.trace) {
-				console.log(msg);
-			}
-		}catch(e){ }
+//		try { console.log("[jslog] " + msg); } catch (e) {} // FIXME remember comment code
 	}
 
 	function verifyRequirement() {
@@ -100,8 +127,8 @@ window.JSLOG_ONERROR = (function() {
 	function clearErrors() {
 		TRACE('clearErrors {}');
 		try {
-			errors = errors || [];
-			errors = [];
+			jslogErrors = jslogErrors || [];
+			jslogErrors = [];
 		}catch(e){ }
 	}
 
@@ -182,7 +209,7 @@ window.JSLOG_ONERROR = (function() {
 	function postOnError(jslogOnError, options) {
 		TRACE('postOnError {}');
 		try {
-		$.support.cors = true;
+//		$.support.cors = true;
 		$.ajax({
             url: paramJslogAbsPath,
             type: 'post',
@@ -226,26 +253,6 @@ window.JSLOG_ONERROR = (function() {
 			}else{
 				TRACE('[WARN] html tag not found, pass sourcecode generate');
 			}
-//			var url = $.trim(jslogOnError.error.url);
-//			if (url != '' && url.indexOf(document.domain) !== -1) {
-//				$.ajax({
-//		            url: url,
-//		            type: 'get',
-//		            success: function (data, textStatus, jqXHR) {
-//		            	clear(jslogOnError);
-//		            	var sourcecode = {};
-//		            	sourcecode.mimetype = "html/text";
-//		            	sourcecode.content = data;
-//		            	jslogOnError.sourcecode = sourcecode;
-//		            	putOnError(jslogOnError, jslogOnError.error.id);
-//		            },
-//		            error: function (jqXHR, textStatus, errorThrown) {
-//		            	TRACE("[WARN] ajax get {" + url + "} failure, error is " + errorThrown);
-//		            }
-//		        });
-//			} else {
-//				TRACE("[WARN] url illegal, url {" + url + "}");
-//			}
 		} catch (e) { }
 	}
 
@@ -303,17 +310,6 @@ window.JSLOG_ONERROR = (function() {
 		TRACE('getOptions');
 		jslog_opts = jslog_opts || {};
 
-		// [trace] {true, false}
-		if ($.trim(jslog_opts.trace) == '') {
-			jslog_opts.trace = false;
-		}else{
-			if (jslog_opts.trace === true || jslog_opts.trace === false) {
-				// OK
-			}else{
-				jslog_opts.trace = false;
-			}
-		}
-
 		// [screenshot] {true, false}
 		if ($.trim(jslog_opts.screenshot) == '') {
 			jslog_opts.screenshot = false;
@@ -340,6 +336,7 @@ window.JSLOG_ONERROR = (function() {
 	}
 
 	return {
-		collect : collect
+		isInit : isInit,
+		registerOnerror : registerOnerror
 	}
-})();
+})(window);

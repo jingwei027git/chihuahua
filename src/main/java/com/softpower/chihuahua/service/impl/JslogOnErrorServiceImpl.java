@@ -5,8 +5,6 @@ import static com.softpower.chihuahua.core.util.string.RbStrings.newline;
 
 import javax.annotation.Resource;
 
-import lombok.Getter;
-
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +23,8 @@ import com.softpower.chihuahua.entity.JslogError;
 import com.softpower.chihuahua.entity.JslogScreenshot;
 import com.softpower.chihuahua.entity.JslogSourcecode;
 import com.softpower.chihuahua.service.JslogOnErrorService;
+
+import lombok.Getter;
 
 @Getter
 @Component("JslogOnErrorService")
@@ -96,21 +96,18 @@ public class JslogOnErrorServiceImpl
 	public String generateScriptCodeByAppId(Long appId, String url, boolean screenshot, boolean sourcecode) {
 		final JslogApp app = jslogAppDao.findOne(appId);
 		String scriptCode = RbStrings.concats(
-			begline(), "<script type=\"text/javascript\" src=\"" + url + "/assets/softpower/jslogOnError.js\"></script>",
+			begline(), "<script type=\"text/javascript\" src=\"" + url + "/assets/html2canvas/latest/html2canvas.min.js\"></script>",
+			newline(), "<script type=\"text/javascript\" src=\"" + url + "/assets/softpower/jslogOnError.js\"></script>",
 			newline(), "<script type=\"text/javascript\">",
-			newline(), "<!--",
 			newline(), "var jslog_params = jslog_params || [];",
-			newline(), "jslog_params.push(\"" + app.getAppKey() + "\");",
-			newline(), "jslog_params.push(\"" + url + "/errors\");",
 			newline(), "var jslog_opts = jslog_opts || {};",
-			newline(), "jslog_opts.screenshot = " + screenshot + ";",
-			newline(), "jslog_opts.sourcecode = " + sourcecode + ";",
-			newline(), "errors = [];",
-			newline(), "window.onerror = function() {",
-			newline(), "errors.push(arguments);",
-			newline(), "JSLOG_ONERROR.collect();",
+			newline(), "if (!JSLOG_ONERROR.isInit()) {",
+			newline(), "    jslog_params.push(\"" + app.getAppKey() + "\");",
+			newline(), "    jslog_params.push(\"" + url + "/errors\");",
+			newline(), "    jslog_opts.screenshot = " + screenshot + ";",
+			newline(), "    jslog_opts.sourcecode = " + sourcecode + ";",
+			newline(), "    JSLOG_ONERROR.registerOnerror();",
 			newline(), "}",
-			newline(), "//-->",
 			newline(), "</script>"
 		);
 
