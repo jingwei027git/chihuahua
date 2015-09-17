@@ -31,12 +31,30 @@
 		
 		margin: 0px;
 	}
-	.rb-field .icon-area {
-		padding-left: 30px;
-	}
 	.rb-field .text-field:focus {
 		box-shadow: 0px 0px 4px 2px #E6ECF0;
 		border: 1px solid #4D616D;
+	}
+	.rb-field .text-field-error {
+		padding: 0px 33px 0px 12px;
+		height: 28px;
+		width: 100%;
+		box-sizing: border-box;
+		background: #FAFBFC none repeat scroll 0% 0%;
+		border-radius: 3px;
+		box-shadow: 0px 2px 5px 2px #E6ECF0 inset;
+		color: #152833;
+		font: 13px "Lucida Grande",Verdana,sans-serif;
+		border: 1px solid #E24F1D;
+		
+		margin: 0px;
+	}
+	.rb-field .text-field-error:focus {
+		box-shadow: 0px 0px 4px 2px #E6ECF0;
+		border: 1px solid #E24F1D;
+	}
+	.rb-field .icon-area {
+		padding-left: 30px;
 	}
 	.rb-field .field-style-hook {
 		display: block;
@@ -76,7 +94,7 @@
 		bottom: 0px;
 		left: 0px;
 		
-		background-image: url("//fareharbor.com/static/images/sprite.png?b2e2d4643591");
+		background-image: url("//fareharbor.com/static/images/sprite.png");
 	}
 	</style>
 </head>
@@ -117,20 +135,57 @@
 	<script src="${pageContext.request.contextPath}/assets/react/0.13.3/JSXTransformer.js"></script>
 	<script type="text/jsx">
 		var RbTextField = React.createClass({
+			getInitialState : function() {
+				return {
+					errorClass : ''
+				};
+			},
+
+			componentWillMount : function() {
+
+			},
+
+			handleClick : function() {
+				
+			},
+
+			handleChange : function(e) {
+				if (typeof this.props.validate === 'function') {
+					var errMsg = this.props.validate(this.refs.inputText.getDOMNode().value);
+					if (errMsg == null || errMsg === '') {
+						this.setState({errorClass : ''});
+					} else {
+						this.setState({errorClass : '-error'});
+					}
+				}
+			},
+			
 			render : function() {
+				var sIcon = (this.props.icon || '').toLowerCase();
+				var sIconClass = (sIcon === '')? '': 'icon-area';
+				var bRequire = ((this.props.require || '').toLowerCase() === 'true');
 				return (
 					<span className="rb-field">
-						<input type="text" name={this.props.name} className={this.props.icon != null? 'text-field icon-area': 'text-field'} data-require={this.props.require == 'true'? 'true': 'false'} />
-						<span className={'field-style-hook ' + (this.props.icon || '')}></span>
-						<span className={this.props.require == 'true'? 'field-required-flag': ''}>
+						<input type="text" name={this.props.name} ref="inputText" className={'text-field' + this.state.errorClass + ' ' + sIconClass} onClick={this.handleClick} onChange={this.handleChange} />
+						<span className={'field-style-hook ' + sIcon}></span>
+						<span className={bRequire? 'field-required-flag': ''}>
 							<span className="required-flag-icon"></span>
 						</span>
 					</span>
 				);
 			}
 		});
+		
+		function abc(val) {
+			if (val.length < 1) {
+				return 'must input';
+			} else {
+				return '';
+			}
+		}
+
 		React.render(
-			<RbTextField name="username" icon="icon-phone" require="true" />,
+			<RbTextField name="username" icon="icon-phone" require="true" validate={abc} />,
 			$("#txtUsername")[0]
 		);
 		React.render(
