@@ -1,0 +1,103 @@
+@import url("simple-css-tooltip.css");
+
+.rb-icon {
+	color: #A2B4BF;
+}
+
+.rb-icon-error {
+	color: #EE511C;
+}
+
+.rb-icon-mandatory {
+	color: #EE511C;
+}
+
+.rb-field {
+	position: relative;
+	display: block;
+}
+
+.rb-field .text-field {
+	padding: 0px 33px 0px 12px;
+	height: 28px;
+	width: 100%;
+	box-sizing: border-box;
+	background: #FAFBFC none repeat scroll 0% 0%;
+	border-radius: 3px;
+	box-shadow: 0px 2px 5px 2px #E6ECF0 inset;
+	color: #152833;
+	font: 13px "Lucida Grande",Verdana,sans-serif;
+	border: 1px solid #9BADB8;
+	
+	margin: 0px;
+}
+
+.rb-field .text-field:focus {
+	box-shadow: 0px 0px 5px 4px #E6ECF0;
+	border: 1px solid #4D616D;
+}
+
+.rb-field .text-field-error {
+	padding: 0px 33px 0px 12px;
+	height: 28px;
+	width: 100%;
+	box-sizing: border-box;
+	background: #FAFBFC none repeat scroll 0% 0%;
+	border-radius: 3px;
+	box-shadow: 0px 2px 5px 2px #E6ECF0 inset;
+	color: #152833;
+	font: 13px "Lucida Grande",Verdana,sans-serif;
+	border: 1px solid #E24F1D;
+	
+	margin: 0px;
+}
+
+.rb-field .text-field-error:focus {
+	box-shadow: 0px 0px 4px 2px #E6ECF0;
+	border: 1px solid #E24F1D;
+}
+
+.rb-field .icon-area {
+	padding-left: 30px;
+}
+
+.rb-field .field-style-hook {
+	display: block;
+	width: 14px;
+	height: 16px;
+	position: absolute;
+	left: 12px;
+	top: 8px;
+	background-position: -378px -162px;
+	
+	pointer-events: none;
+	z-index: 1;
+}
+
+.rb-field .field-required-flag {
+	width: 24px;
+	background: #D5DDE4 none repeat scroll 0% 0%;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	cursor: help;
+	z-index: 2;
+	
+	display: block;
+}
+
+.rb-field .field-required-flag .required-flag-icon {
+	width: 10px;
+	height: 10px;
+	display: block;
+	background-position: -468px -162px;
+	position: absolute;
+	margin: 4px 6px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+}
