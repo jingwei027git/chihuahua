@@ -73,7 +73,7 @@
 			$("#txtUsername")[0]
 		);
 		React.render(
-			React.createElement(RbTextField, {name: "address", validate: abc, showValidate: "true", placeholder: ' address', require: "true", requireMsg: 'Answer is required', toLowerCase: 'true', maxLength: "6"}),
+			React.createElement(RbTextField, {name: "address", validate: abc, showValidate: "true", placeholder: ' address', require: "true", requireMsg: 'Answer is required ..', toLowerCase: 'true', maxLength: "6"}),
 			$("#txtAddress")[0]
 		);
 		React.render(
