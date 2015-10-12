@@ -1,5 +1,7 @@
 package com.softpower.chihuahua.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Preconditions;
+import com.softpower.chihuahua.condition.VwJslogErrorClientCond;
 import com.softpower.chihuahua.core.controller.RbControllerBase;
 import com.softpower.chihuahua.core.controller.delegate.RbModelRestControllerDelegate;
 import com.softpower.chihuahua.datamodel.JslogOnErrorModel;
 import com.softpower.chihuahua.service.JslogOnErrorService;
+import com.softpower.chihuahua.service.VwJslogErrorClientService;
+import com.softpower.chihuahua.view.VwJslogErrorClient;
 
 @Slf4j
 @RestController
@@ -31,12 +36,21 @@ public class JslogOnErrorController extends RbControllerBase {
 	@Resource(name = "JslogOnErrorService")
 	private JslogOnErrorService jslogErrorService;
 
+	@Resource(name = "VwJslogErrorClientService")
+	private VwJslogErrorClientService vwJslogErrorClientService;
+
 	private RbModelRestControllerDelegate<JslogOnErrorModel, JslogOnErrorModel> delegate;
+	private RbModelRestControllerDelegate<VwJslogErrorClient, VwJslogErrorClientCond> vwDelegate;
 
 
 	@Override
 	public void init() {
 		delegate = new RbModelRestControllerDelegate<>(jslogErrorService);
+		vwDelegate = new RbModelRestControllerDelegate<>(vwJslogErrorClientService);
+	}
+
+	public HttpEntity<List<VwJslogErrorClient>> list(@RequestBody VwJslogErrorClientCond cond) {
+		return vwDelegate.list(cond);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

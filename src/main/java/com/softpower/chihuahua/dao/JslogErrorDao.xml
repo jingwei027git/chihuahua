@@ -4,7 +4,15 @@
 
 	<sql id="condition">
 		<if test="cond != null">
-			<!-- TODO -->
+			<if test="cond.begCreateTime != null">
+				create_time <![CDATA[>=]]> #{cond.begCreateTime}
+			</if>
+			<if test="cond.endCreateTime != null">
+				create_time <![CDATA[< ]]> #{cond.endCreateTime}
+			</if>
+			<if test="cond.errMsgLike != null">
+				err_msg LIKE '%${cond.errMsgLike}%'
+			</if>
 		</if>
 	</sql>
 	
@@ -47,3 +55,4 @@
 	</update>
 
 </mapper>
+

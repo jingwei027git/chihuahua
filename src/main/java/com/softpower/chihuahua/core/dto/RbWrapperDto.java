@@ -11,6 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
+/**
+ * Data transfer object wrapper
+ * <p>
+ * <p>
+ * @param <T>
+ */
 @SuppressWarnings("serial")
 public class RbWrapperDto<T> implements RbDto {
 

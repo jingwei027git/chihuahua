@@ -1,5 +1,10 @@
 package com.softpower.chihuahua.core.controller.delegate;
 
+import java.util.List;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +18,8 @@ import com.softpower.chihuahua.core.controller.security.RbSpringSecurity;
 import com.softpower.chihuahua.core.dto.RbCond;
 import com.softpower.chihuahua.core.dto.RbWrapperDto;
 import com.softpower.chihuahua.core.entity.RbModel;
+import com.softpower.chihuahua.core.pagination.Pagination;
 import com.softpower.chihuahua.core.service.RbModelService;
-
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RbModelRestControllerDelegate<T extends RbModel, C extends RbCond> {
@@ -27,6 +30,22 @@ public class RbModelRestControllerDelegate<T extends RbModel, C extends RbCond> 
 	/* constructor */
 	public RbModelRestControllerDelegate(RbModelService<T, C> rbModelService) {
 		this.rbModelService = rbModelService;
+	}
+
+	/**
+	 * LIST
+	 * <p>
+	 * @param cond
+	 * @return
+	 */
+	public HttpEntity<List<T>> list(@RequestBody C cond) {
+		log.info("Listing models {}", cond);
+
+		List<T> cols = getRbModelService().list(RbWrapperDto.of(cond, RbSpringSecurity.getPrincipalUser()), Pagination.ALL);
+		ResponseEntity<List<T>> responseEntity = new ResponseEntity<>(cols, HttpStatus.OK);
+
+		log.debug("Listing : " + responseEntity);
+		return responseEntity;
 	}
 
 	/**

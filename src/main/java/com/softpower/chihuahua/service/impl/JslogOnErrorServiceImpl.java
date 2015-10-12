@@ -5,6 +5,8 @@ import static com.softpower.chihuahua.core.util.string.RbStrings.newline;
 
 import javax.annotation.Resource;
 
+import lombok.Getter;
+
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +25,6 @@ import com.softpower.chihuahua.entity.JslogError;
 import com.softpower.chihuahua.entity.JslogScreenshot;
 import com.softpower.chihuahua.entity.JslogSourcecode;
 import com.softpower.chihuahua.service.JslogOnErrorService;
-
-import lombok.Getter;
 
 @Getter
 @Component("JslogOnErrorService")

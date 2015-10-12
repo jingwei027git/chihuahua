@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.softpower.chihuahua.dao.VwJslogErrorClientDao">
+
+	<sql id="condition">
+		<if test="cond != null">
+			<if test="cond.begCreateTime != null">
+				AND create_time <![CDATA[>=]]> #{cond.begCreateTime}
+			</if>
+			<if test="cond.endCreateTime != null">
+				AND create_time <![CDATA[< ]]> #{cond.endCreateTime}
+			</if>
+			<if test="cond.errMsgLike != null">
+				AND err_msg LIKE '%${cond.errMsgLike}%'
+			</if>
+		</if>
+	</sql>
+	
+	<select id="count" resultType="long">
+		SELECT COUNT(1) FROM vw_jslog_error_client
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findAll" resultType="com.softpower.chihuahua.view.VwJslogErrorClient">
+		SELECT * FROM vw_jslog_error_client
+		<where>
+			<include refid="condition" />
+		</where>
+	</select>
+	
+	<select id="findOne" resultType="com.softpower.chihuahua.view.VwJslogErrorClient">
+		SELECT * FROM vw_jslog_error_client WHERE id = #{id}
+	</select>
+	
+	<!-- ==================== -->
+	<!-- Below SQL for custom -->
+	<!-- ==================== -->
+
+</mapper>
+
